@@ -23,7 +23,7 @@ const Profile = ({ navigation }) => {
     const onRefresh = async () => {
         getPosts();
         getLikedPostsList();
-        //refreshUser();
+        refreshUser();
     }
 
     const refreshUser = async () => {
