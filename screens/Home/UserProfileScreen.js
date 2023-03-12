@@ -8,6 +8,7 @@ import ItemSeparator from '../../Components/ItemSeparator';
 import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../Components/ListEmpty';
 import CustomImage from '../../Components/CustomImage';
+import { URL } from '@env';
 
 const UserProfileScreen = ({ navigation, route }) => {
     const { id } = route.params;
@@ -27,7 +28,7 @@ const UserProfileScreen = ({ navigation, route }) => {
         }
         setRefreshing(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/user/getUserById/${id}`, {
+            const response = await fetch(`${URL}/api/user/getUserById/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authUser.token}`
@@ -55,7 +56,7 @@ const UserProfileScreen = ({ navigation, route }) => {
         }
         setRefreshing(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/getUserPostsById/${id}`, {
+            const response = await fetch(`${URL}/api/posts/getUserPostsById/${id}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authUser.token}`
@@ -82,7 +83,7 @@ const UserProfileScreen = ({ navigation, route }) => {
         }
         setRefreshing(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/getLikedPostsList/${id}`, {
+            const response = await fetch(`${URL}/api/posts/getLikedPostsList/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ const UserProfileScreen = ({ navigation, route }) => {
         }
         setRefreshing(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/user/follow/${userId}`, {
+            const response = await fetch(`${URL}/api/user/follow/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${authUser.token}`,

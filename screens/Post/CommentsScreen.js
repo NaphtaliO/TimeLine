@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import Comment from '../../Components/Comment';
 import * as Haptics from 'expo-haptics';
 import { useLogout } from '../../hooks/useLogout';
+import { URL } from '@env';
 
 export default function CommentsScreen({ route, navigation }) {
   const [comment, setComment] = useState('');
@@ -21,7 +22,7 @@ export default function CommentsScreen({ route, navigation }) {
     }
     setRefreshing(true);
     try {
-      const response = await fetch(`https://timeline.herokuapp.com/api/comments/${post_id}`, {
+      const response = await fetch(`${URL}/api/comments/${post_id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +53,7 @@ export default function CommentsScreen({ route, navigation }) {
     }
     setLoading(true);
     try {
-      const response = await fetch('https://timeline.herokuapp.com/api/comments/create', {
+      const response = await fetch(`${URL}/api/comments/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,7 +80,7 @@ export default function CommentsScreen({ route, navigation }) {
 
   const deleteComment = async (id) => {
     try {
-      const response = await fetch(`https://timeline.herokuapp.com/api/comments/delete/${id}`, {
+      const response = await fetch(`${URL}/api/comments/delete/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

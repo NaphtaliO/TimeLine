@@ -11,6 +11,7 @@ import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../Components/ListEmpty';
 import LikedPost from '../../Components/LikedPost';
 import CustomImage from '../../Components/CustomImage';
+import { URL } from '@env';
 
 const Profile = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const Profile = ({ navigation }) => {
             if (!user) {
                 return;
             }
-            const response = await fetch(`https://timeline.herokuapp.com/api/user/refresh`, {
+            const response = await fetch(`${URL}/api/user/refresh`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ const Profile = ({ navigation }) => {
             if (!user) {
                 return;
             }
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/`, {
+            const response = await fetch(`${URL}/api/posts/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -102,7 +103,7 @@ const Profile = ({ navigation }) => {
             if (!user) {
                 return;
             }
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/getLikedPostsList/${user._id}`, {
+            const response = await fetch(`${URL}/api/posts/getLikedPostsList/${user._id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

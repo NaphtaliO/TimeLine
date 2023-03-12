@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStorage, ref, listAll, deleteObject, } from 'firebase/storage';
 import { useLogout } from '../../../hooks/useLogout';
+import { URL } from '@env';
 
 
 const DeleteAccount = () => {
@@ -52,7 +53,7 @@ const DeleteAccount = () => {
             if (!user) {
                 return;
             }
-            const response = await fetch(`https://timeline.herokuapp.com/api/user/deleteUser`, {
+            const response = await fetch(`${URL}/api/user/deleteUser`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

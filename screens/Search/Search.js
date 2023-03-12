@@ -1,9 +1,10 @@
-import { SafeAreaView, StyleSheet, TextInput, View, Text, FlatList } from 'react-native'
+import { StyleSheet, View, Text, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import SearchItems from '../../Components/SearchItems';
-import SearchBar from 'react-native-platform-searchbar';
+import { SearchBar } from '@rneui/themed';
 import { useLogout } from '../../hooks/useLogout';
+import { URL } from '@env';
 
 const Search = ({ navigation }) => {
   const { logout } = useLogout()
@@ -14,7 +15,7 @@ const Search = ({ navigation }) => {
   const searchUsers = async () => {
     if (text !== "" && !(text.trim().length === 0)) {
       try {
-        const response = await fetch(`https://timeline.herokuapp.com/api/user/search/${text.trim()}`, {
+        const response = await fetch(`${URL}/api/user/search/${text.trim()}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -45,17 +46,14 @@ const Search = ({ navigation }) => {
 
     <View style={styles.container}>
       <SearchBar
-        value={text}
+        platform='ios'
+        placeholder="Type Here..."
         onChangeText={setText}
-        placeholder="Search"
-        theme="light"
-        platform="ios"
-        style={styles.searchBar}
-        onClear={() => { setText(''); setUsers([]) }}
-        onCancel={() => { setText(''); setUsers([]) }}
-        autoCapitalize="none"
+        value={text}
         autoCorrect={false}
         clearTextOnFocus={false}
+        onClear={() => { setText(''); setUsers([]) }}
+        onCancel={() => { setText(''); setUsers([]) }}
       />
       {user.length !== 0 && text !== '' ?
         <FlatList

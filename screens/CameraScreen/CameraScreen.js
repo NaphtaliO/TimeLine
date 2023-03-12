@@ -5,6 +5,7 @@
 // import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 // import { Ionicons } from '@expo/vector-icons';
 // import Photo from '../../Components/Photo';
+//import { URL } from '@env';
 
 // const CameraScreen = ({ navigation }) => {
 //     const [camera, setCamera] = useState(null);

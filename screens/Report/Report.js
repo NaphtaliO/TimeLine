@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Activi
 import React, { useState } from 'react';
 import { useLogout } from '../../hooks/useLogout';
 import { useSelector } from 'react-redux';
+import { URL } from '@env';
 
 const Report = ({ navigation, route }) => {
     const { entityType, entityId } = route.params;
@@ -9,6 +10,7 @@ const Report = ({ navigation, route }) => {
     const [text, setText] = useState("");
     const user = useSelector((state) => state.user.value);
     const { logout } = useLogout();
+    
 
     const report = async () => {
         if (loading) {
@@ -16,7 +18,7 @@ const Report = ({ navigation, route }) => {
         }
         setLoading(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/report/create`, {
+            const response = await fetch(`${URL}/api/report/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

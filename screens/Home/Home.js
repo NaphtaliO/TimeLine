@@ -9,6 +9,7 @@ import ListEmpty from '../../Components/ListEmpty';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { setToken } from '../../state_management/notificationTokenSlice';
+import { URL } from '@env';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -61,7 +62,7 @@ const Home = ({ navigation }) => {
 
   const setPushToken = async (token) => {
     try {
-      const response = await fetch(`https://timeline.herokuapp.com/api/user/setPushToken`, {
+      const response = await fetch(`${URL}/api/user/setPushToken`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${user.token}`,
@@ -114,7 +115,7 @@ const Home = ({ navigation }) => {
     }
     setRefreshing(true);
     try {
-      const response = await fetch(`https://timeline.herokuapp.com/api/posts/getFeed`, {
+      const response = await fetch(`${URL}/api/posts/getFeed`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${user.token}`
