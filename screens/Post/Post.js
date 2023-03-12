@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createPosts } from '../../state_management/postsSlice';
 import { addToFeed } from '../../state_management/feedSlice';
 import { useLogout } from '../../hooks/useLogout';
+import { URL } from '@env';
 
 export default function Post({ route, navigation }) {
     const [loading, setLoading] = useState(false);
@@ -89,7 +90,7 @@ export default function Post({ route, navigation }) {
                 uri = await handleImagePicked(image);
             }
             const post = { uri, caption }
-            const response = await fetch('https://timeline.herokuapp.com/api/posts/create', {
+            const response = await fetch(`${URL}/api/posts/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

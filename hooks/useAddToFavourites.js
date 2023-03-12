@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout";
 import { updateFavourites } from "../state_management/userSlice";
+import { URL } from '@env';
 
 export const useAddToFavourites = () => {
     const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export const useAddToFavourites = () => {
         }
         setLoading(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/addToFavourites/${id}`, {
+            const response = await fetch(`${URL}/api/posts/addToFavourites/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${user.token}`

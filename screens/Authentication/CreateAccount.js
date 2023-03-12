@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../state_management/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { URL } from '@env';
 
 
 const CreateAccount = ({ navigation }) => {
@@ -20,7 +21,7 @@ const CreateAccount = ({ navigation }) => {
         }
         setLoading(true)
         try {
-            const response = await fetch('https://timeline.herokuapp.com/api/auth/signup', {
+            const response = await fetch(`${URL}/api/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, username, password })

@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLogout } from '../../hooks/useLogout';
 import validator from 'validator';
 import CustomImage from '../../Components/CustomImage';
+import { URL } from '@env';
 
 
 const EditProfile = ({ navigation, route }) => {
@@ -230,7 +231,7 @@ const EditProfile = ({ navigation, route }) => {
         website: body.website ? body.website : "",
         avatar: body.avatar ? body.avatar : ""
       }
-      const response = await fetch('https://timeline.herokuapp.com/api/user/update', {
+      const response = await fetch(`${URL}/api/user/update`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

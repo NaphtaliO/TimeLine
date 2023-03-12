@@ -3,6 +3,7 @@ import { useLogout } from "./useLogout";
 import { deletePost } from "../state_management/postsSlice";
 import { deletePostInFeed } from "../state_management/feedSlice";
 import { getStorage, ref, deleteObject } from 'firebase/storage';
+import { URL } from '@env';
 
 export const useDeletePost = () => {
     const user = useSelector((state) => state.user.value);
@@ -27,7 +28,7 @@ export const useDeletePost = () => {
     const deletePostUI = async (id, uri) => {
         await deleteFromFirebase(uri)
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/deletePost/${id}`, {
+            const response = await fetch(`${URL}/api/posts/deletePost/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user.token}`

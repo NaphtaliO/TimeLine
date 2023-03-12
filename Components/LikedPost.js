@@ -10,6 +10,7 @@ import { useAddToFavourites } from '../hooks/useAddToFavourites';
 import { useDeletePost } from '../hooks/useDeletePost';
 import CustomText from './CustomText';
 import CustomImage from './CustomImage';
+import { URL } from '@env';
 
 
 const windowWidth = Dimensions.get('window').width;
@@ -33,7 +34,7 @@ const LikedPost = ({ navigation, item, updateLikedPostsList }) => {
         }
         setLoading(true);
         try {
-            const response = await fetch(`https://timeline.herokuapp.com/api/posts/like/${item._id}`, {
+            const response = await fetch(`${URL}/api/posts/like/${item._id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${user.token}`

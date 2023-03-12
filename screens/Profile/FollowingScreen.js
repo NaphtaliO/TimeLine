@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useSelector } from 'react-redux';
 import FollowingUser from '../../Components/FollowingUser';
 import { useLogout } from '../../hooks/useLogout';
+import { URL } from '@env';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,7 +39,7 @@ const Followers = ({ navigation, route }) => {
             }
             setLoading(true);
             try {
-                const response = await fetch(`https://timeline.herokuapp.com/api/user/getFollowers/${id}`, {
+                const response = await fetch(`${URL}/api/user/getFollowers/${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ const Following = ({ navigation, route }) => {
             }
             setLoading(true);
             try {
-                const response = await fetch(`https://timeline.herokuapp.com/api/user/getFollowing/${id}`, {
+                const response = await fetch(`${URL}/api/user/getFollowing/${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
