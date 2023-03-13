@@ -19,7 +19,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.naphtali2003.TimeLine"
+      "bundleIdentifier": "com.naphtali2003.TimeLine",
+      "buildNumber": "10"
     },
     "android": {
       "adaptiveIcon": {
