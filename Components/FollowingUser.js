@@ -11,7 +11,7 @@ const FollowingUser = ({ navigation, item }) => {
                     navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
             }}>
             <View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', marginTop: 12 }}>
                     <View style={{}}>
                         {item.avatar === null || item.avatar === ""?
                             <Image style={styles.image} source={require('../assets/default_avatar.png')} /> :

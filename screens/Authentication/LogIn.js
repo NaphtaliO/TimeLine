@@ -67,7 +67,7 @@ const LogIn = ({ navigation }) => {
             defaultValue={password}
             autoCorrect={false}
             secureTextEntry={true}
-            clearTextOnFocus={false} />
+            clearTextOnFocus={false}/>
 
           {error == "" ? <Text></Text> :
             <View style={styles.textField}>
