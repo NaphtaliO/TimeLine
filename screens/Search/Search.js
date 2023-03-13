@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, FlatList } from 'react-native'
+import { StyleSheet, View, Text, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import SearchItems from '../../Components/SearchItems';
@@ -11,9 +11,11 @@ const Search = ({ navigation }) => {
   const user = useSelector((state) => state.user.value);
   const [users, setUsers] = useState([]);
   const [text, setText] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const searchUsers = async () => {
     if (text !== "" && !(text.trim().length === 0)) {
+      setLoading(true);
       try {
         const response = await fetch(`${URL}/api/user/search/${text.trim()}`, {
           method: 'GET',
@@ -35,6 +37,7 @@ const Search = ({ navigation }) => {
       } catch (error) {
         console.log(error.message);
       }
+      setLoading(false);
     }
   }
 
@@ -55,11 +58,12 @@ const Search = ({ navigation }) => {
         onClear={() => { setText(''); setUsers([]) }}
         onCancel={() => { setText(''); setUsers([]) }}
       />
-      {user.length !== 0 && text !== '' ?
+      {loading ? <ActivityIndicator color={'black'} /> :
+        user.length !== 0 && text !== '' ?
         <FlatList
           ListEmptyComponent={
             <View>
-              <Text style={{ justifyContent: 'center', alignItems: 'center' }}>No results for "{text}"</Text>
+              <Text style={{ marginLeft: 'auto', marginRight: 'auto' }}>No results for "{text}"</Text>
             </View>
           }
           contentInsetAdjustmentBehavior="automatic"

@@ -39,6 +39,7 @@ const UserProfileScreen = ({ navigation, route }) => {
                 if (json.error === "Request is not authorized") {
                     logout()
                 }
+                alert(json.message)
             }
             if (response.ok) {
                 setUser(json);

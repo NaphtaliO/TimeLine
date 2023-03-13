@@ -110,8 +110,8 @@ const Post = ({ navigation, user, item }) => {
             </View>
 
             <View style={{ flexDirection: 'row', marginBottom: 10, marginLeft: 'auto', marginRight: 7 }}>
-                <TouchableWithoutFeedback onPress={() => { navigation.navigate("CommentsScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.comments.length} comments</Text></TouchableWithoutFeedback>
-                <Text style={{ paddingRight: 5 }}>{item.likes.length} likes</Text>
+                <TouchableWithoutFeedback onPress={() => { navigation.navigate("CommentsScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.comments.length === 0 || item.comments.length > 1 ? `${item.comments.length} comments` : `${item.comments.length} comment`}</Text></TouchableWithoutFeedback>
+                <Text style={{ paddingRight: 5 }}>{item.likes.length === 0 || item.likes.length > 1 ? `${item.likes.length} likes` : `${item.likes.length} like`}</Text>
             </View>
             <ItemSeparator />
 

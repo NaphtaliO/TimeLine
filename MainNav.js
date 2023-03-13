@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { TouchableOpacity, ActionSheetIOS } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { TouchableOpacity, ActionSheetIOS, Alert, SafeAreaView } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Feather, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,14 +8,14 @@ import Home from './screens/Home/Home';
 import Settings from './screens/Profile/Settings/Settings';
 import EditProfile from './screens/Profile/EditProfile';
 import Post from './screens/Post/Post';
-import CameraScreen from './screens/CameraScreen/CameraScreen';
+//import CameraScreen from './screens/CameraScreen/CameraScreen';
 import ImageScreen from './screens/CameraScreen/ImageScreen';
 import Loading from './Components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import PostScreen from './screens/Post/PostScreen';
 import CreateAccount from './screens/Authentication/CreateAccount';
 import LogIn from './screens/Authentication/LogIn';
-import { logIn } from './state_management/userSlice';
+import { logIn, update } from './state_management/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CommentsScreen from './screens/Post/CommentsScreen';
 import FollowingScreen from './screens/Profile/FollowingScreen';
@@ -27,6 +27,9 @@ import PersonalInformation from './screens/Profile/Settings/PersonalInformation'
 import Security from './screens/Profile/Settings/Security';
 import ChangePassword from './screens/Profile/Settings/ChangePassword';
 import Report from './screens/Report/Report';
+import { useLogout } from './hooks/useLogout';
+import { URL } from '@env';
+import TermsAndConditions from './Components/TermsAndConditions';
 
 
 const Tab = createBottomTabNavigator();
@@ -77,6 +80,10 @@ const TabNav = ({ navigation }) => {
                 ), headerTitle: user.username
             }} />
         </Tab.Navigator>
+
+        // <SafeAreaView >
+        //     <TermsAndConditions />
+        // </SafeAreaView>
     )
 }
 
@@ -85,6 +92,7 @@ const MainNav = ({ route }) => {
     const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
+    const { logout } = useLogout()
 
     useEffect(() => {
         const getData = async () => {
@@ -105,10 +113,10 @@ const MainNav = ({ route }) => {
         getData();
     }, [])
 
-    const bottomSheet = ({ navigation, id }) => {
+    const bottomSheet = ({ navigation, id, username }) => {
         ActionSheetIOS.showActionSheetWithOptions(
             {
-                options: ["Cancel", "Report"],
+                options: ["Cancel", "Report", "Block"],
                 destructiveButtonIndex: 1,
                 cancelButtonIndex: 0,
                 userInterfaceStyle: 'dark'
@@ -118,9 +126,51 @@ const MainNav = ({ route }) => {
                     // cancel action
                 } else if (buttonIndex === 1) {
                     navigation.navigate('ReportScreen', { entityType: "User", entityId: id })
+                } else if (buttonIndex === 2) {
+                    Alert.alert(
+                        `Block @${username}?`,
+                        "They won't be able to find your profile or posts. They won't know you blocked them",
+                        [
+                            {
+                                text: "Cancel",
+                                onPress: () => { },
+                                style: "cancel"
+                            },
+                            {
+                                text: "Block",
+                                style: "destructive",
+                                onPress: () => { blockUser(id, navigation) }
+                            }
+                        ]
+                    );
                 }
             }
         );
+    }
+
+    const blockUser = async (user_id, navigation) => {
+        try {
+            const response = await fetch(`${URL}/api/user/blockUser/${user_id}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            const json = await response.json();
+            if (!response.ok) {
+                if (json.error === "Request is not authorized") {
+                    logout()
+                }
+            }
+            if (response.ok) {
+                let updatedUser = { ...json, token: user.token }
+                await AsyncStorage.setItem('user', JSON.stringify(updatedUser))
+                dispatch(update(updatedUser));
+                navigation.goBack()
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     if (loading) {
@@ -139,7 +189,17 @@ const MainNav = ({ route }) => {
             })}
         >
             {user ?
+
                 <>
+                    {!user.acceptedTerms ? 
+                    <Stack.Screen name="TermsAndConditions" component={TermsAndConditions}
+                        options={({ navigation }) => ({
+                            headerShown: false,
+
+                        })}
+                    />
+                    : null}
+                    
                     <Stack.Screen
                         name="TabNav"
                         component={TabNav}
@@ -213,8 +273,9 @@ const MainNav = ({ route }) => {
                             ),
                             headerRight: () => (
                                 <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={() => {
-                                    let id = route.params.id
-                                    bottomSheet({ navigation, id })
+                                    let id = route.params.id;
+                                    let username = route.params.username
+                                    bottomSheet({ navigation, id, username })
                                 }}>
                                     <MaterialCommunityIcons name="dots-horizontal" size={24} color="black" />
                                 </TouchableOpacity>

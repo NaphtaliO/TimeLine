@@ -12,6 +12,7 @@ import ListEmpty from '../../Components/ListEmpty';
 import LikedPost from '../../Components/LikedPost';
 import CustomImage from '../../Components/CustomImage';
 import { URL } from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -53,6 +54,7 @@ const Profile = ({ navigation }) => {
                 }
             }
             if (response.ok) {
+                await AsyncStorage.setItem('user', JSON.stringify(refreshedUser))
                 dispatch(logIn(refreshedUser))
             }
         } catch (error) {
