@@ -6,21 +6,14 @@ import { URL } from '@env';
 import { update } from '../state_management/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-// const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-//     const paddingToBottom = 20;
-//     return layoutMeasurement.height + contentOffset.y >=
-//         contentSize.height - paddingToBottom;
-// };
-
-const TermsAndConditions = () => {
-    const user = useSelector((state) => state.user.value)
-    //const [state, setState] = useState({ accepted: false });
+const TermsAndConditions = ({}) => {
+    const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
     const { logout } = useLogout()
     const [loading, setLoading] = useState(false);
 
     const acceptTerms = async () => {
+        if (loading) { return; }
         setLoading(true);
         try {
             const response = await fetch(`${URL}/api/user/acceptTerms`, {
