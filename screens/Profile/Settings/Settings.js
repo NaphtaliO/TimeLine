@@ -18,16 +18,16 @@ const Settings = ({ navigation }) => {
         },
         // {
         //     id: 2,
-        //     title: "Security",
-        //     description: "Manage your account's security. ",
+        //     title: "Favourites",
+        //     description: "View posts you Favourited.",
         //     onPress: () => navigation.navigate('Security')
         // },
-        // {
-        //     id: 3,
-        //     title: "About",
-        //     description: "View information about our app.",
-        //     onPress: () => { }
-        // },
+        {
+            id: 3,
+            title: "Blocked Users",
+            // description: "View posts you Favourited.",
+            onPress: () => navigation.navigate('BlockedUsers')
+        },
         {
             id: 4,
             title: "Sign Out",

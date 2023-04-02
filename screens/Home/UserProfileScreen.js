@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, RefreshControl, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfilePost from '../../Components/ProfilePost';
@@ -39,7 +39,10 @@ const UserProfileScreen = ({ navigation, route }) => {
                 if (json.error === "Request is not authorized") {
                     logout()
                 }
-                alert(json.message)
+                Alert.alert(`${json.message}`, '', [
+                    { text: 'OK', onPress: () => navigation.goBack() },
+                ]);
+
             }
             if (response.ok) {
                 setUser(json);

@@ -30,6 +30,8 @@ import Report from './screens/Report/Report';
 import { useLogout } from './hooks/useLogout';
 import { URL } from '@env';
 import TermsAndConditions from './Components/TermsAndConditions';
+import { acc } from 'react-native-reanimated';
+import BlockedUsers from './screens/Profile/Settings/BlockedUsers';
 
 
 const Tab = createBottomTabNavigator();
@@ -80,10 +82,6 @@ const TabNav = ({ navigation }) => {
                 ), headerTitle: user.username
             }} />
         </Tab.Navigator>
-
-        // <SafeAreaView >
-        //     <TermsAndConditions />
-        // </SafeAreaView>
     )
 }
 
@@ -180,125 +178,118 @@ const MainNav = ({ route }) => {
     }
 
     return (
+        <>
+            <Stack.Navigator
+                screenOptions={({ navigation }) => ({
+                    headerLeft: () => (
+                        <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
+                    )
+                })}
+            >
+                {user ?
 
-        <Stack.Navigator
-            screenOptions={({ navigation }) => ({
-                headerLeft: () => (
-                    <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
-                )
-            })}
-        >
-            {user ?
-
-                <>
-                    {!user.acceptedTerms ? 
-                    <Stack.Screen name="TermsAndConditions" component={TermsAndConditions}
-                        options={({ navigation }) => ({
-                            headerShown: false,
-
-                        })}
-                    />
-                    : null}
-                    
-                    <Stack.Screen
-                        name="TabNav"
-                        component={TabNav}
-                        options={{
-                            headerShown: false
-                        }}
-                    />
-                    <Stack.Screen
-                        name="EditProfile"
-                        component={EditProfile}
-                        options={({ navigation }) => ({
-                            // headerLeft: () => (
-                            //     <TouchableOpacity onPress={() => navigation.goBack()}>
-                            //         <Ionicons name="chevron-back" size={26} color="black" style={{}} />
-                            //     </TouchableOpacity>
-                            // ),
-                        })}
-                    />
-                    <Stack.Screen
-                        name="Settings"
-                        component={Settings}
-                        options={({ navigation }) => ({
+                    <>
+                        {!user?.acceptedTerms ?
+                            <Stack.Screen
+                                name="TermsAndConditions"
+                                component={TermsAndConditions}
+                                options={{
+                                    headerShown: false
+                                }}
+                            />
+                            : null
+                        }
+                        <Stack.Screen
+                            name="TabNav"
+                            component={TabNav}
+                            options={{
+                                headerShown: false
+                            }}
+                        />
+                        <Stack.Screen
+                            name="EditProfile"
+                            component={EditProfile}
+                            options={({ navigation }) => ({})}
+                        />
+                        <Stack.Screen
+                            name="Settings"
+                            component={Settings}
+                            options={({ navigation }) => ({
+                                headerLeft: () => (
+                                    <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
+                                )
+                            })}
+                        />
+                        <Stack.Screen name="Account Information" component={AccountInformation} />
+                        <Stack.Screen name="Personal Information" component={PersonalInformation} />
+                        <Stack.Screen name="Security" component={Security} />
+                        <Stack.Screen name="Change Password" component={ChangePassword} />
+                        <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
+                        <Stack.Screen name="Post" component={Post} options={({ navigation }) => ({
+                            headerTitle: 'Start Post',
+                            gestureDirection: 'vertical',
+                            gestureEnabled: false,
                             headerLeft: () => (
-                                <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
-                            )
-                        })}
-                    />
-                    <Stack.Screen name="Account Information" component={AccountInformation} />
-                    <Stack.Screen name="Personal Information" component={PersonalInformation} />
-                    <Stack.Screen name="Security" component={Security} />
-                    <Stack.Screen name="Change Password" component={ChangePassword} />
-                    <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
-                    <Stack.Screen name="Post" component={Post} options={({ navigation }) => ({
-                        headerTitle: 'Start Post',
-                        gestureDirection: 'vertical',
-                        gestureEnabled: false,
-                        headerLeft: () => (
-                            <TouchableOpacity onPress={() => navigation.goBack()}><Feather name="x" size={24} color="black" /></TouchableOpacity>
-                        ),
-                    })} />
-                    {/* <Stack.Screen name="CameraScreen" component={CameraScreen} options={{
-                        gestureDirection: 'vertical',
-                        headerShown: false,
-                    }} /> */}
-                    <Stack.Screen name="ImageScreen" component={ImageScreen} options={{
-                        gestureDirection: 'vertical',
-                        headerShown: false,
-                    }} />
-                    <Stack.Screen name="CommentsScreen" component={CommentsScreen}
-                        options={({ navigation }) => ({
-                            headerTitle: "Comments",
-                            headerLeft: () => (
-                                <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
-                            )
-                        })}
-                    />
-                    <Stack.Screen name="FollowingScreen" component={FollowingScreen}
-                        options={({ route }) => ({ title: route.params.username })} />
-                    <Stack.Screen name="ProfileStack" component={Profile} options={({ navigation, }) => ({
-                        title: user.username,
-                        headerRight: () => (
-                            <TouchableOpacity onPress={() => navigation.navigate('Settings')}><Ionicons name="ios-settings-outline" size={24} color="black" /></TouchableOpacity>
-                        )
-                    })}
-                    />
-                    <Stack.Screen name="UserProfileScreen" component={UserProfileScreen}
-                        options={({ navigation, route }) => ({
-                            title: route.params.username,
-                            headerLeft: () => (
-                                <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
+                                <TouchableOpacity onPress={() => navigation.goBack()}><Feather name="x" size={24} color="black" /></TouchableOpacity>
                             ),
+                        })} />
+                        <Stack.Screen name="BlockedUsers" component={BlockedUsers} options={{}} />
+                        <Stack.Screen name="ImageScreen" component={ImageScreen} options={{
+                            gestureDirection: 'vertical',
+                            headerShown: false,
+                        }} />
+                        <Stack.Screen name="CommentsScreen" component={CommentsScreen}
+                            options={({ navigation }) => ({
+                                headerTitle: "Comments",
+                                headerLeft: () => (
+                                    <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
+                                )
+                            })}
+                        />
+                        <Stack.Screen name="FollowingScreen" component={FollowingScreen}
+                            options={({ route }) => ({ title: route.params.username })} />
+                        <Stack.Screen name="ProfileStack" component={Profile} options={({ navigation, }) => ({
+                            title: user.username,
                             headerRight: () => (
-                                <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={() => {
-                                    let id = route.params.id;
-                                    let username = route.params.username
-                                    bottomSheet({ navigation, id, username })
-                                }}>
-                                    <MaterialCommunityIcons name="dots-horizontal" size={24} color="black" />
-                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => navigation.navigate('Settings')}><Ionicons name="ios-settings-outline" size={24} color="black" /></TouchableOpacity>
                             )
                         })}
-                    />
-                    <Stack.Screen name="ReportScreen" component={Report}
-                        options={({ navigation }) => ({
-                            headerTitle: 'Report',
+                        />
+                        <Stack.Screen name="UserProfileScreen" component={UserProfileScreen}
+                            options={({ navigation, route }) => ({
+                                title: route.params.username,
+                                headerLeft: () => (
+                                    <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={26} color="black" style={{}} /></TouchableOpacity>
+                                ),
+                                headerRight: () => (
+                                    <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={() => {
+                                        let id = route.params.id;
+                                        let username = route.params.username
+                                        bottomSheet({ navigation, id, username })
+                                    }}>
+                                        <MaterialCommunityIcons name="dots-horizontal" size={24} color="black" />
+                                    </TouchableOpacity>
+                                )
+                            })}
+                        />
+                        <Stack.Screen name="ReportScreen" component={Report}
+                            options={({ navigation }) => ({
+                                headerTitle: 'Report',
 
-                        })}
-                    />
-                </>
-                :
-                <>
-                    <Stack.Screen name="SignIn" component={LogIn} options={{
-                        headerShown: false,
-                    }} />
-                    <Stack.Screen name="CreateAccount" component={CreateAccount} options={{
-                        headerShown: false,
-                    }} />
-                </>}
-        </Stack.Navigator>
+                            })}
+                        />
+                    </>
+                    :
+                    <>
+                        <Stack.Screen name="SignIn" component={LogIn} options={{
+                            headerShown: false,
+                        }} />
+                        <Stack.Screen name="CreateAccount" component={CreateAccount} options={{
+                            headerShown: false,
+                        }} />
+                    </>}
+            </Stack.Navigator>
+        </>
     )
 }
 

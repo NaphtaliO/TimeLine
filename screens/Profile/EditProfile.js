@@ -195,22 +195,20 @@ const EditProfile = ({ navigation, route }) => {
       return;
     }
     setLoading(true);
-    if (!website.startsWith("https://")) {
-      setError('Website must start with "https://"');
-      setLoading(false);
-      return;
-    }
-
-    if (website === "" || website === null) {
-      null
-    } else {
-      if (!validator.isURL(website)) {
-        setError("Website must be a valid URL")
-        setLoading(false);
-        return;
-      }
-    }
     try {
+      // if (website === "" || website === null) {
+      //   null
+      // } else if (!website.startsWith("https://")) {
+      //   setError('Website must start with "https://"');
+      //   setLoading(false);
+      //   return;
+      // } else if (!validator.isURL(website)) {
+      //   setError("Website must be a valid URL")
+      //   setLoading(false);
+      //   return;
+      // }
+
+
       let avatar;
       if (deleteImage) {
         await deleteProfilePicture();
@@ -313,8 +311,6 @@ const EditProfile = ({ navigation, route }) => {
           </>
         }
       />
-
-
     </View>
   )
 }
@@ -368,7 +364,6 @@ const styles = StyleSheet.create({
     width: '70%',
   },
   input: {
-    //backgroundColor: 'black'
     fontSize: 15,
   },
   bio: {

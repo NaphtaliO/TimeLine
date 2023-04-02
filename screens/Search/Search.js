@@ -10,8 +10,8 @@ const Search = ({ navigation }) => {
   const { logout } = useLogout()
   const user = useSelector((state) => state.user.value);
   const [users, setUsers] = useState([]);
-  const [text, setText] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [text, setText] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const searchUsers = async () => {
     if (text !== "" && !(text.trim().length === 0)) {
@@ -72,9 +72,11 @@ const Search = ({ navigation }) => {
             <SearchItems navigation={navigation} item={item} />
           }
           keyExtractor={item => item._id} />
-        : null}
-
-
+          : 
+          <Text style={{ marginLeft: 'auto', marginRight: 'auto', fontWeight: '500', fontSize: 20, marginTop: 20 }}>
+            Search for users on TimeLine
+          </Text>
+      }
     </View>
 
   )
