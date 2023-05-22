@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, ActionSheetIOS, Alert, SafeAreaView } from 'react-native'
+import { TouchableOpacity, ActionSheetIOS, Alert } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Feather, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, Feather, FontAwesome, Foundation, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Profile from './screens/Profile/Profile';
 import Home from './screens/Home/Home';
 import Settings from './screens/Profile/Settings/Settings';
@@ -30,8 +30,9 @@ import Report from './screens/Report/Report';
 import { useLogout } from './hooks/useLogout';
 import { URL } from '@env';
 import TermsAndConditions from './Components/TermsAndConditions';
-import { acc } from 'react-native-reanimated';
 import BlockedUsers from './screens/Profile/Settings/BlockedUsers';
+import Chat from './screens/Chat/Chat';
+import ChatScreen from './screens/Chat/ChatScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -52,6 +53,9 @@ const TabNav = ({ navigation }) => {
                     }
                     if (route.name === 'PostScreen') {
                         return <Feather name="plus-square" size={size} color={color} />;
+                    }
+                    if (route.name === 'Chat') {
+                        return <Ionicons name="ios-chatbox-outline" size={size} color={color} />;
                     }
                     if (route.name === 'Profile') {
                         return <Ionicons name="person-outline" size={size} color={color} />;
@@ -76,6 +80,18 @@ const TabNav = ({ navigation }) => {
                     navigation.navigate('Post')
                 }
             })} />
+            <Tab.Screen name="Chat" component={Chat}
+                options={({ navigation }) => ({
+                    headerRight: () => (
+                        <TouchableOpacity onPress={() => { }}>
+                            <Entypo name="new-message" size={22} color="black" style={{ marginRight: 20 }} />
+                        </TouchableOpacity>
+                    ),
+                    tabBarBadge: 5,
+                    tabBarBadgeStyle: {
+                        backgroundColor: '#3AB0FF',
+                    },
+                })} />
             <Tab.Screen name="Profile" component={Profile} options={{
                 headerRight: () => (
                     <TouchableOpacity onPress={() => navigation.navigate('Settings')}><Ionicons name="ios-settings-outline" size={24} color="black" style={{ marginRight: 15 }} /></TouchableOpacity>
@@ -225,6 +241,7 @@ const MainNav = ({ route }) => {
                         <Stack.Screen name="Security" component={Security} />
                         <Stack.Screen name="Change Password" component={ChangePassword} />
                         <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
+                        <Stack.Screen name="ChatScreen" component={ChatScreen} />
                         <Stack.Screen name="Post" component={Post} options={({ navigation }) => ({
                             headerTitle: 'Start Post',
                             gestureDirection: 'vertical',
