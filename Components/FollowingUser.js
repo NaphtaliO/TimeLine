@@ -15,7 +15,7 @@ const FollowingUser = ({ navigation, item }) => {
                     <View style={{}}>
                         {item.avatar === null || item.avatar === ""?
                             <Image style={styles.image} source={require('../assets/default_avatar.png')} /> :
-                            <CustomImage style={styles.image} uri={user.avatar} />}
+                            <CustomImage style={styles.image} uri={item.avatar} />}
                     </View>
                     <View style={{ justifyContent: 'center', paddingLeft: 10 }}>
                         <Text>{item.name}</Text>

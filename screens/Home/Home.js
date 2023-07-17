@@ -11,6 +11,8 @@ import * as Notifications from 'expo-notifications';
 import { setToken } from '../../state_management/notificationTokenSlice';
 import { URL } from '@env';
 
+
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,

@@ -99,14 +99,14 @@ const LikedPost = ({ navigation, item, updateLikedPostsList }) => {
             <View style={{ flexDirection: 'row', marginHorizontal: 5, marginTop: 10 }}>
                 <TouchableWithoutFeedback onPress={() => {
                     user._id === item._id ? navigation.navigate('ProfileStack') :
-                        navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
+                        navigation.navigate('UserProfileScreen', { username: item.username, id: item.user_id })
                 }}>
                     {/* avatar */}
                     <View style={{ flexDirection: 'row' }}>
                         {item.avatar === null || item.avatar === "" ?
                             <Image style={styles.avatar} source={require('../assets/default_avatar.png')} />
                             : 
-                         <CustomImage uri={user.avatar} style={styles.avatar} /> }
+                         <CustomImage uri={item.avatar} style={styles.avatar} /> }
                         <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(item.createdAt))} ago`}</Text>

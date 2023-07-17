@@ -7,6 +7,7 @@ import { URL } from '@env';
 
 
 const CreateAccount = ({ navigation }) => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -24,7 +25,7 @@ const CreateAccount = ({ navigation }) => {
             const response = await fetch(`${URL}/api/auth/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, username, password })
+                body: JSON.stringify({ name, email, username, password })
             })
 
             const json = await response.json()
@@ -52,6 +53,14 @@ const CreateAccount = ({ navigation }) => {
                     <Image source={require('../../assets/logo.png')} style={styles.logo} />
                 </View>
                 <View style={styles.inputContainer}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Name'
+                        onChangeText={newName => setName(newName)}
+                        autoCapitalize="none"
+                        defaultValue={name}
+                        autoCorrect={false}
+                        clearTextOnFocus={false} />
                     <TextInput
                         style={styles.input}
                         placeholder='Email'

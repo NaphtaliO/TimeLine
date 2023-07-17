@@ -34,15 +34,13 @@ const Comment = ({ item, navigation, actionSheet }) => {
   //   setLoading(false)
   // }
 
-  
-
   return (
     <>
       <TouchableOpacity onLongPress={() => actionSheet(item._id, item.user_id)}>
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={() => {
-            user._id === item._id ? navigation.navigate('ProfileStack') :
-              navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
+            user._id === item.user_id ? navigation.navigate('ProfileStack') :
+              navigation.navigate('UserProfileScreen', { username: item.username, id: item.user_id })
           }}>
             <View style={styles.imageContainer}>
               {item.avatar === null || item.avatar === "" ?
