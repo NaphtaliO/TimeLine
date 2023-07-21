@@ -35,6 +35,16 @@
       "eas": {
         "projectId": "f7b8de8a-f2a6-4f4c-a88b-efb6fcef69a3"
       }
-    }
+    }, 
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission" : "Allow $(PRODUCT_NAME) to access your microphone"
+        }
+      ]
+    ]
   }
 }
