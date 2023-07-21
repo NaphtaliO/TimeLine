@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, Alert, SafeAreaView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { v4 as uuidv4 } from 'uuid';
@@ -47,17 +47,31 @@ export default function Post({ route, navigation }) {
         })
     }, [navigation, hasUnsavedChanges]);
 
-    // useEffect(() => {
-    //     if (route.params?.passedImage) {
-    //         setImage(route.params?.passedImage.uri)
-    //         setSelected(true)
-    //     }
-    // }, [route.params?.passedImage])
-
     //Handles picking images from Gallery
     let openImagePickerAsync = async () => {
 
         let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 0.2,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+            setSelected(true);
+        }
+
+        if (result.canceled) {
+            setImage(null);
+            setSelected(false);
+        }
+    };
+
+    // Handles opening camera/taking pictures
+    let openCameraAsync = async () => {
+
+        let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
@@ -160,7 +174,6 @@ export default function Post({ route, navigation }) {
         } catch (error) {
             console.log(error.message);
         }
-        
     }
 
 
@@ -178,7 +191,7 @@ export default function Post({ route, navigation }) {
                 />
                 <View style={styles.icon} >
                     <TouchableOpacity onPress={openImagePickerAsync} style={{}}><FontAwesome name="image" size={30} color="black" /></TouchableOpacity>
-                    {/* <TouchableOpacity onPress={() => navigation.navigate('CameraScreen')} style={{ paddingLeft: 10 }}><FontAwesome name="camera" size={30} color="black" /></TouchableOpacity> */}
+                    <TouchableOpacity onPress={openCameraAsync} style={{ paddingLeft: 10 }}><FontAwesome name="camera" size={30} color="black" /></TouchableOpacity>
                 </View>
                 {/* {selectedImage && <Image source={{ uri: selectedImage.localUri }}
                 style={styles.thumbnail} />} */}
