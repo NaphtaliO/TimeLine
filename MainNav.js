@@ -15,7 +15,6 @@ import Home from "./screens/Home/Home";
 import Settings from "./screens/Profile/Settings/Settings";
 import EditProfile from "./screens/Profile/EditProfile";
 import Post from "./screens/Post/Post";
-import ImageScreen from "./screens/CameraScreen/ImageScreen";
 import Loading from "./Components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import PostScreen from "./screens/Post/PostScreen";
@@ -328,14 +327,6 @@ const MainNav = ({ route }) => {
               name="BlockedUsers"
               component={BlockedUsers}
               options={{}}
-            />
-            <Stack.Screen
-              name="ImageScreen"
-              component={ImageScreen}
-              options={{
-                gestureDirection: "vertical",
-                headerShown: false,
-              }}
             />
             <Stack.Screen
               name="CommentsScreen"

@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, Alert, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, Alert, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
+import * as Haptics from 'expo-haptics';
 import * as ImagePicker from 'expo-image-picker';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { v4 as uuidv4 } from 'uuid';
 import 'react-native-get-random-values';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
@@ -10,6 +11,7 @@ import { createPosts } from '../../state_management/postsSlice';
 import { addToFeed } from '../../state_management/feedSlice';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
+import { THEME_COLOUR } from '../../Constants';
 
 export default function Post({ route, navigation }) {
     const [loading, setLoading] = useState(false);
@@ -20,6 +22,7 @@ export default function Post({ route, navigation }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value);
     const { logout } = useLogout()
+    const [permission, requestPermission] = ImagePicker.useCameraPermissions();
 
     useEffect(() => {
         navigation.addListener('beforeRemove', (e) => {
@@ -49,7 +52,7 @@ export default function Post({ route, navigation }) {
 
     //Handles picking images from Gallery
     let openImagePickerAsync = async () => {
-
+        Haptics.selectionAsync()
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -70,22 +73,26 @@ export default function Post({ route, navigation }) {
 
     // Handles opening camera/taking pictures
     let openCameraAsync = async () => {
+        if (permission?.status !== "granted") {
+            requestPermission();
+        } else {
+            Haptics.selectionAsync()
+            let result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                aspect: [4, 3],
+                quality: 0.2,
+                cameraType: ImagePicker.CameraType.front
+            });
 
-        let result = await ImagePicker.launchCameraAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 0.2,
-        });
+            if (!result.canceled) {
+                setImage(result.assets[0].uri);
+                setSelected(true);
+            }
 
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-            setSelected(true);
-        }
-
-        if (result.canceled) {
-            setImage(null);
-            setSelected(false);
+            if (result.canceled) {
+                setImage(null);
+                setSelected(false);
+            }
         }
     };
 
@@ -121,6 +128,7 @@ export default function Post({ route, navigation }) {
                 }
             }
             if (response.ok) {
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
                 dispatch(createPosts(json));
                 dispatch(addToFeed({ name: user.name, username: user.username, avatar: user.avatar, ...json }))
             }
@@ -163,7 +171,7 @@ export default function Post({ route, navigation }) {
                 xhr.open("GET", uri, true);
                 xhr.send(null);
             });
-  
+
             const fileRef = ref(getStorage(), `${user._id}/${uuidv4()}`);
             const result = await uploadBytes(fileRef, blob);
 
@@ -176,45 +184,58 @@ export default function Post({ route, navigation }) {
         }
     }
 
+    const removeImage = () => {
+        setImage(null);
+        setSelected(false);
+    }
 
     return (
-        <ScrollView style={styles.container} scrollEnabled={true}>
-            <View>
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="what's on your mind?"
-                    onChangeText={text => setCaption(text)}
-                    multiline={true}
-                    value={caption}
-                    maxLength={500}
-
-                />
-                <View style={styles.icon} >
-                    <TouchableOpacity onPress={openImagePickerAsync} style={{}}><FontAwesome name="image" size={30} color="black" /></TouchableOpacity>
-                    <TouchableOpacity onPress={openCameraAsync} style={{ paddingLeft: 10 }}><FontAwesome name="camera" size={30} color="black" /></TouchableOpacity>
-                </View>
-                {/* {selectedImage && <Image source={{ uri: selectedImage.localUri }}
-                style={styles.thumbnail} />} */}
-                <View style={styles.imageContainer}>
-                    {image === null ? null:
-                        <Image source={{ uri: image }}
-                            style={[{}, styles.thumbnail]} />}
-                </View>
-            </View>
-            <View style={{
-                paddingBottom: 30
-            }}>
-            {image !== null || caption !== "" ?
-                <TouchableOpacity onPress={handleCreate}>
-                    <View style={styles.buttonContainer}>
-                        {loading ? <ActivityIndicator style={{ padding: 10 }} size="small" color="white" />
-                            :
-                            <Text style={styles.button}>Share Post</Text>}
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={84}>
+            <ScrollView style={styles.container} scrollEnabled={true}>
+                <View>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="what's on your mind?"
+                        onChangeText={text => setCaption(text)}
+                        multiline={true}
+                        value={caption}
+                        maxLength={500}
+                    />
+                    <View style={styles.icon} >
+                        <TouchableOpacity onPress={openImagePickerAsync} style={{}}>
+                            <FontAwesome name="image" size={40} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={openCameraAsync} style={{ marginLeft: 30 }}>
+                            <FontAwesome name="camera" size={40} color="black" />
+                        </TouchableOpacity>
                     </View>
-                </TouchableOpacity>
-                    : null}
-            </View>
-        </ScrollView>
+                    {image === null ? null :
+                        <View>
+                            <ImageBackground source={{ uri: image }}
+                                style={styles.thumbnail} >
+                                <TouchableOpacity style={styles.closeButton} onPress={removeImage}>
+                                    <Ionicons name="close-circle" size={40} color="black" />
+                                </TouchableOpacity>
+                            </ImageBackground>
+                        </View>
+                    }
+                </View>
+                <View style={{
+                    paddingBottom: 30
+                }}>
+                    {image !== null || caption !== "" ?
+                        <TouchableOpacity onPress={handleCreate}>
+                            <View style={styles.buttonContainer}>
+                                {loading ? <ActivityIndicator style={{ padding: 10 }} size="small" color="white" />
+                                    :
+                                    <Text style={styles.button}>Share Post</Text>}
+                            </View>
+                        </TouchableOpacity>
+                        : null}
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+
     );
 }
 
@@ -234,9 +255,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         margin: 20,
     },
-    imageContainer: {
-
-    },
     thumbnail: {
         width: '100%',
         height: 500,
@@ -246,7 +264,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 30,
-        backgroundColor: '#3AB0FF',
+        backgroundColor: THEME_COLOUR,
         borderRadius: 10,
     },
     button: {
@@ -254,4 +272,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: "600",
     },
+    closeButton: {
+        marginLeft: 'auto',
+        // position: 'absolute',
+        top: 0,
+        right: 0
+    }
 });
