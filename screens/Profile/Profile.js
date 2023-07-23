@@ -13,6 +13,7 @@ import LikedPost from '../../Components/LikedPost';
 import CustomImage from '../../Components/CustomImage';
 import { URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { THEME_COLOUR } from '../../Constants';
 
 const Profile = ({ navigation }) => {
     const dispatch = useDispatch();
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         marginTop: 30,
-        backgroundColor: '#3AB0FF',
+        backgroundColor: THEME_COLOUR,
         borderRadius: 10,
         width: '90%',
     },

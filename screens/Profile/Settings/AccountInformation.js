@@ -10,6 +10,11 @@ const AccountInformation = ({navigation}) => {
             onPress: () => navigation.navigate('Personal Information')
         },
         {
+            id: 2,
+            title: "Change Password",
+            onPress: () => navigation.navigate('ChangePassword')
+        },
+        {
             id: 3,
             title: "Delete your account",
             color: "red",

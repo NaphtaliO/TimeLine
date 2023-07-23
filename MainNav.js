@@ -40,6 +40,7 @@ import Chat from "./screens/Chat/Chat";
 import ChatScreen from "./screens/Chat/ChatScreen";
 import NewChat from "./screens/Chat/NewChat";
 import LikesScreen from "./screens/Post/LikesScreen";
+import ChangePasswordContinued from "./screens/Profile/Settings/ChangePasswordContinued";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -301,7 +302,8 @@ const MainNav = ({ route }) => {
               component={PersonalInformation}
             />
             <Stack.Screen name="Security" component={Security} />
-            <Stack.Screen name="Change Password" component={ChangePassword} />
+            <Stack.Screen name="ChangePassword" component={ChangePassword} />
+            <Stack.Screen name="ChangePasswordContinued" component={ChangePasswordContinued} />
             <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
             <Stack.Screen
               name="ChatScreen"

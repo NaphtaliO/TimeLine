@@ -14,7 +14,7 @@ const BlockedUsers = ({ navigation }) => {
     const { logout } = useLogout()
 
     const fetchBlockedUsers = async () => {
-        if (refreshing(true)) {
+        if (refreshing) {
             return;
         }
         setRefreshing(true);
@@ -37,7 +37,7 @@ const BlockedUsers = ({ navigation }) => {
                 setBlockedUsers(json);
             }
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
         setRefreshing(false)
     }
@@ -66,7 +66,7 @@ const BlockedUsers = ({ navigation }) => {
                 setBlockedUsers(list);
             }
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
         setLoading(false);
     }
