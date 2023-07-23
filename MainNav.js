@@ -39,6 +39,7 @@ import BlockedUsers from "./screens/Profile/Settings/BlockedUsers";
 import Chat from "./screens/Chat/Chat";
 import ChatScreen from "./screens/Chat/ChatScreen";
 import NewChat from "./screens/Chat/NewChat";
+import LikesScreen from "./screens/Post/LikesScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -406,6 +407,13 @@ const MainNav = ({ route }) => {
               component={Report}
               options={({ navigation }) => ({
                 headerTitle: "Report",
+              })}
+            />
+            <Stack.Screen
+              name="LikesScreen"
+              component={LikesScreen}
+              options={({ navigation }) => ({
+                headerTitle: "Likes",
               })}
             />
             <Stack.Screen

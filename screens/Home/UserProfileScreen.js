@@ -172,8 +172,8 @@ const UserProfileScreen = ({ navigation, route }) => {
                             {user.bio === null || user.bio === "" ? null : <Text>{user.bio}</Text>}
                             {user.website === null || user.website === "" ? null : <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(user.website)}><Text style={{ color: '#2155CD' }}>{user.website}</Text></TouchableOpacity>}
                             <View style={styles.followingText}>
-                                <TouchableOpacity onPress={() => { navigation.navigate('FollowingScreen', { screen: "Following", id: user._id, username: user.username }) }}><Text style={[{ paddingRight: 10 }]}><Text style={styles.number}>{user.following.length}</Text> Following</Text></TouchableOpacity>
-                                <TouchableOpacity onPress={() => { navigation.navigate('FollowingScreen', { screen: "Followers", id: user._id, username: user.username }) }}><Text><Text style={styles.number}>{user.followers.length}</Text> Followers</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={() => { navigation.push('FollowingScreen', { screen: "Following", id: user._id, username: user.username }) }}><Text style={[{ paddingRight: 10 }]}><Text style={styles.number}>{user.following.length}</Text> Following</Text></TouchableOpacity>
+                                <TouchableOpacity onPress={() => { navigation.push('FollowingScreen', { screen: "Followers", id: user._id, username: user.username }) }}><Text><Text style={styles.number}>{user.followers.length}</Text> Followers</Text></TouchableOpacity>
                             </View>
                             {
                                 !user.followers.includes(authUser._id) && user.following.includes(authUser._id) ?

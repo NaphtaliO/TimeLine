@@ -1,10 +1,9 @@
-import { FlatList, StyleSheet, Text, TouchableWithoutFeedback, View, Image, Button } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableWithoutFeedback, View, Image, Button, RefreshControl } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useLogout } from '../../../hooks/useLogout';
 import { URL } from '@env';
 import CustomImage from '../../../Components/CustomImage';
-import { RefreshControl } from 'react-native';
 import ListEmpty from '../../../Components/ListEmpty';
 
 const BlockedUsers = ({ navigation }) => {
@@ -15,7 +14,7 @@ const BlockedUsers = ({ navigation }) => {
     const { logout } = useLogout()
 
     const fetchBlockedUsers = async () => {
-        if (setRefreshing(true)) {
+        if (refreshing(true)) {
             return;
         }
         setRefreshing(true);

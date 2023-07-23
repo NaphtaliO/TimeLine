@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList, RefreshControl } from 'react-native';
+import { StyleSheet, View, FlatList, RefreshControl, Platform } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFeed } from '../../state_management/feedSlice';
@@ -11,18 +11,26 @@ import * as Notifications from 'expo-notifications';
 import { setToken } from '../../state_management/notificationTokenSlice';
 import { URL } from '@env';
 
-
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
   }),
 });
 
 async function registerForPushNotificationsAsync() {
   let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
   if (Device.isDevice) {
     const { status: existingStatus } = await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -31,21 +39,13 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      //alert('Failed to get push token for push notification!');
+      // alert('Failed to get push token for push notification!');
       return;
     }
     token = (await Notifications.getExpoPushTokenAsync()).data;
   } else {
     //alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
+    return;
   }
 
   return token;
@@ -63,6 +63,9 @@ const Home = ({ navigation }) => {
   const responseListener = useRef();
 
   const setPushToken = async (token) => {
+    if (token === null || token === "") {
+      return;
+    }
     try {
       const response = await fetch(`${URL}/api/user/setPushToken`, {
         method: 'PUT',
@@ -97,7 +100,15 @@ const Home = ({ navigation }) => {
       setNotification(notification);
     });
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
+      let data = response.notification.request.content.data
+      console.log(response.notification.request.content.data);
+      if (data.type === "following") {
+        navigation.navigate('UserProfileScreen', { username: data.username, id: data.id })
+      }else if (data.type === "comment") {
+        navigation.navigate("CommentsScreen", { post_id: data.post_id })
+      } else if (data.type === "liked") {
+        navigation.navigate("LikesScreen", { post_id: data.post_id })
+      }
     });
 
     return () => {

@@ -6,6 +6,7 @@ import Comment from '../../Components/Comment';
 import * as Haptics from 'expo-haptics';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
+import ListEmpty from '../../Components/ListEmpty';
 
 export default function CommentsScreen({ route, navigation }) {
   const [comment, setComment] = useState('');
@@ -150,11 +151,10 @@ export default function CommentsScreen({ route, navigation }) {
         data={comments}
         showsVerticalScrollIndicator={true}
         renderItem={({ item }) =>
-   
             <Comment item={item} navigation={navigation} actionSheet={actionSheet} />
-          
         }
         keyExtractor={item => item._id}
+        ListEmptyComponent={<ListEmpty title={"No Comments yet"} message={`Comments on your post will appear here`} />}
       />
 
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}

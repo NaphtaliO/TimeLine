@@ -4,11 +4,13 @@ import { useSelector } from 'react-redux'
 import CustomImage from './CustomImage'
 
 const FollowingUser = ({ navigation, item }) => {
-    const user = useSelector((state) => state.user.value )
+    const user = useSelector((state) => state.user.value)
+    console.log(user._id);
+    console.log(item);
     return (
         <TouchableWithoutFeedback onPress={() => {
                 user._id === item._id ? navigation.navigate('ProfileStack') :
-                    navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
+                    navigation.push('UserProfileScreen', { username: item.username, id: item._id })
             }}>
             <View>
                 <View style={{ flexDirection: 'row', marginTop: 12 }}>

@@ -164,8 +164,8 @@ const Profile = ({ navigation }) => {
                         {user.bio === null || user.bio === "" ? null : <Text>{user.bio}</Text>}
                         {user.website === null || user.website === "" ? null : <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(user.website)} ><Text style={{ color: '#2155CD' }}>{user.website}</Text></TouchableOpacity>}
                         <View style={styles.followingText} pointerEvents="auto">
-                            <TouchableOpacity pointerEvents={"auto"} onPress={() => { navigation.navigate('FollowingScreen', { screen: "Following", id: user._id, username: user.username }) }}><Text style={[{ paddingRight: 10 }]}><Text style={styles.number}>{user.following.length}</Text> Following</Text></TouchableOpacity>
-                            <TouchableOpacity pointerEvents={"auto"} onPress={() => { navigation.navigate('FollowingScreen', { screen: "Followers", id: user._id, username: user.username }) }}><Text><Text style={styles.number}>{user.followers.length}</Text> Followers</Text></TouchableOpacity>
+                            <TouchableOpacity pointerEvents={"auto"} onPress={() => { navigation.push('FollowingScreen', { screen: "Following", id: user._id, username: user.username }) }}><Text style={[{ paddingRight: 10 }]}><Text style={styles.number}>{user.following.length}</Text> Following</Text></TouchableOpacity>
+                            <TouchableOpacity pointerEvents={"auto"} onPress={() => { navigation.push('FollowingScreen', { screen: "Followers", id: user._id, username: user.username }) }}><Text><Text style={styles.number}>{user.followers.length}</Text> Followers</Text></TouchableOpacity>
                         </View>
                         <TouchableOpacity onPress={() => navigation.navigate('EditProfile', { user: user })}>
                             <View style={styles.buttonContainer}>
