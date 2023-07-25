@@ -61,11 +61,11 @@ const TabNav = ({ navigation }) => {
           if (route.name === "PostScreen") {
             return <Feather name="plus-square" size={size} color={color} />;
           }
-          // if (route.name === "Chat") {
-          //   return (
-          //     <Ionicons name="ios-chatbox-outline" size={size} color={color} />
-          //   );
-          // }
+          if (route.name === "Chat") {
+            return (
+              <Ionicons name="ios-chatbox-outline" size={size} color={color} />
+            );
+          }
           if (route.name === "Profile") {
             return <Ionicons name="person-outline" size={size} color={color} />;
           }
@@ -103,7 +103,7 @@ const TabNav = ({ navigation }) => {
           },
         })}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Chat"
         component={Chat}
         options={({ navigation }) => ({
@@ -122,7 +122,7 @@ const TabNav = ({ navigation }) => {
             backgroundColor: "#3AB0FF",
           },
         })}
-      /> */}
+      />
       <Tab.Screen
         name="Profile"
         component={Profile}
