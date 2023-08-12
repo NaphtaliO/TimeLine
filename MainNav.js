@@ -41,6 +41,12 @@ import ChatScreen from "./screens/Chat/ChatScreen";
 import NewChat from "./screens/Chat/NewChat";
 import LikesScreen from "./screens/Post/LikesScreen";
 import ChangePasswordContinued from "./screens/Profile/Settings/ChangePasswordContinued";
+import NetInfo from '@react-native-community/netinfo';
+import { useToast } from "react-native-toast-notifications";
+import Favourites from "./screens/Profile/Settings/Favourites";
+import ForgotPassword from "./screens/Authentication/ForgotPassword";
+import ForgotPassword2 from "./screens/Authentication/ForgotPassword2";
+import ForgotPassword3 from "./screens/Authentication/ForgotPassword3";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -61,11 +67,11 @@ const TabNav = ({ navigation }) => {
           if (route.name === "PostScreen") {
             return <Feather name="plus-square" size={size} color={color} />;
           }
-          if (route.name === "Chat") {
-            return (
-              <Ionicons name="ios-chatbox-outline" size={size} color={color} />
-            );
-          }
+          // if (route.name === "Chat") {
+          //   return (
+          //     <Ionicons name="ios-chatbox-outline" size={size} color={color} />
+          //   );
+          // }
           if (route.name === "Profile") {
             return <Ionicons name="person-outline" size={size} color={color} />;
           }
@@ -103,7 +109,7 @@ const TabNav = ({ navigation }) => {
           },
         })}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Chat"
         component={Chat}
         options={({ navigation }) => ({
@@ -122,7 +128,7 @@ const TabNav = ({ navigation }) => {
             backgroundColor: "#3AB0FF",
           },
         })}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={Profile}
@@ -145,10 +151,13 @@ const TabNav = ({ navigation }) => {
 };
 
 const MainNav = ({ route }) => {
+  const toast = useToast();
   const [loading, setLoading] = useState(false);
+  const [isConnected, setIsConnected] = useState(true);
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
   const { logout } = useLogout();
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -168,6 +177,20 @@ const MainNav = ({ route }) => {
     };
     getData();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      try {    
+        if (!state.isConnected) {
+          toast.show("No Internet Connection")
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    })
+
+    return () => unsubscribe();
+  }, [])
 
   const bottomSheet = ({ navigation, id, username }) => {
     ActionSheetIOS.showActionSheetWithOptions(
@@ -303,15 +326,21 @@ const MainNav = ({ route }) => {
             />
             <Stack.Screen name="Security" component={Security} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} />
-            <Stack.Screen name="ChangePasswordContinued" component={ChangePasswordContinued} />
-            <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
             <Stack.Screen
+              name="ChangePasswordContinued"
+              component={ChangePasswordContinued}
+              options={{
+                headerTitle: "Change Password",
+              }}
+            />
+            <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
+            {/* <Stack.Screen
               name="ChatScreen"
               component={ChatScreen}
               options={{
                 headerShown: true,
               }}
-            />
+            /> */}
             <Stack.Screen
               name="Post"
               component={Post}
@@ -419,6 +448,14 @@ const MainNav = ({ route }) => {
               })}
             />
             <Stack.Screen
+              name="Favourites"
+              component={Favourites}
+              // options={({ navigation }) => ({
+              //   headerTitle: "Likes",
+              // })}
+            />
+
+            {/* <Stack.Screen
               name="NewChat"
               component={NewChat}
               options={
@@ -426,7 +463,7 @@ const MainNav = ({ route }) => {
                   //headerShown: false,
                 }
               }
-            />
+            /> */}
           </>
         ) : (
           <>
@@ -442,6 +479,27 @@ const MainNav = ({ route }) => {
               component={CreateAccount}
               options={{
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="ForgotPassword"
+              component={ForgotPassword}
+              options={{
+                headerTitle: "Reset",
+              }}
+            />
+            <Stack.Screen
+              name="ForgotPassword2"
+              component={ForgotPassword2}
+              options={{
+                headerTitle: "Reset",
+              }}
+            />
+            <Stack.Screen
+              name="ForgotPassword3"
+              component={ForgotPassword3}
+              options={{
+                headerTitle: "Reset",
               }}
             />
           </>

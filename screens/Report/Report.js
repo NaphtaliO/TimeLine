@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useLogout } from '../../hooks/useLogout';
 import { useSelector } from 'react-redux';
 import { URL } from '@env';
+import { THEME_COLOUR } from '../../Constants';
 
 const Report = ({ navigation, route }) => {
     const { entityType, entityId } = route.params;
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         marginTop: 150,
-        backgroundColor: '#3AB0FF',
+        backgroundColor: THEME_COLOUR,
         borderRadius: 10,
         width: '90%',
     },

@@ -11,6 +11,7 @@ import { useLogout } from '../../hooks/useLogout';
 import validator from 'validator';
 import CustomImage from '../../Components/CustomImage';
 import { URL } from '@env';
+import { THEME_COLOUR } from '../../Constants';
 
 
 const EditProfile = ({ navigation, route }) => {
@@ -350,7 +351,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     marginTop: 20,
-    backgroundColor: '#3AB0FF',
+    backgroundColor: THEME_COLOUR,
     borderRadius: 10,
     width: '90%',
   },

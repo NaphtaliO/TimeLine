@@ -39,8 +39,8 @@ const Comment = ({ item, navigation, actionSheet }) => {
       <TouchableOpacity onLongPress={() => actionSheet(item._id, item.user_id)}>
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={() => {
-            user._id === item.user_id ? navigation.navigate('ProfileStack') :
-              navigation.navigate('UserProfileScreen', { username: item.username, id: item.user_id })
+            user._id === item.user_id ? navigation.push('ProfileStack') :
+              navigation.push('UserProfileScreen', { username: item.username, id: item.user_id })
           }}>
             <View style={styles.imageContainer}>
               {item.avatar === null || item.avatar === "" ?

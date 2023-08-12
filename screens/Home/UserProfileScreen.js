@@ -9,6 +9,7 @@ import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../Components/ListEmpty';
 import CustomImage from '../../Components/CustomImage';
 import { URL } from '@env';
+import { THEME_COLOUR } from '../../Constants';
 
 const UserProfileScreen = ({ navigation, route }) => {
     const { id } = route.params;
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         marginTop: 30,
-        backgroundColor: '#3AB0FF',
+        backgroundColor: THEME_COLOUR,
         borderRadius: 10,
         width: '90%',
     },

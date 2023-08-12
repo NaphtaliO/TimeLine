@@ -1,1 +1,1 @@
-export const THEME_COLOUR = '#3AB0FF'
+export const THEME_COLOUR = '#3AB0FF';

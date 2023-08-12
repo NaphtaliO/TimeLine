@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../state_management/userSlice';
 import { URL } from '@env';
+import { THEME_COLOUR } from '../../Constants';
 
 const LogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -67,14 +68,17 @@ const LogIn = ({ navigation }) => {
             defaultValue={password}
             autoCorrect={false}
             secureTextEntry={true}
-            clearTextOnFocus={false}/>
+            clearTextOnFocus={false} />
 
-          {error == "" ? <Text></Text> :
-            <View style={styles.textField}>
+
+          <View style={styles.textField}>
+            {error == "" ? <Text></Text> :
               <Text style={[styles.text, { alignSelf: 'flex-start', color: 'red' }]}>{error}</Text>
-              {/* <TouchableOpacity><Text style={[styles.text, { alignSelf: 'flex-end' }]}>Forgot password?</Text></TouchableOpacity> */}
-            </View>
-          }
+            }
+            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text style={[styles.text, { alignSelf: 'flex-end' }]}>Forgot password?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
 
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     marginTop: 30,
-    backgroundColor: '#3AB0FF',
+    backgroundColor: THEME_COLOUR,
     borderRadius: 10,
   },
   button: {

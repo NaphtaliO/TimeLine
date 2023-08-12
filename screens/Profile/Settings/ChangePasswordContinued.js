@@ -60,7 +60,7 @@ const ChangePasswordContinued = ({ navigation }) => {
       <Text>Change Password</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username or email address"
+        placeholder="New Password"
         onChangeText={(newPassword) => setPassword(newPassword)}
         autoCapitalize="none"
         defaultValue={password}

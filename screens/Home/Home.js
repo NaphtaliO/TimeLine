@@ -101,13 +101,13 @@ const Home = ({ navigation }) => {
     });
     responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
       let data = response.notification.request.content.data
-      console.log(response.notification.request.content.data);
+      // console.log(response.notification.request.content.data);
       if (data.type === "following") {
-        navigation.navigate('UserProfileScreen', { username: data.username, id: data.id })
+        navigation.push('UserProfileScreen', { username: data.username, id: data.id })
       }else if (data.type === "comment") {
-        navigation.navigate("CommentsScreen", { post_id: data.post_id })
+        navigation.push("CommentsScreen", { post_id: data.post_id })
       } else if (data.type === "liked") {
-        navigation.navigate("LikesScreen", { post_id: data.post_id })
+        navigation.push("LikesScreen", { post_id: data.post_id })
       }
     });
 
@@ -158,15 +158,6 @@ const Home = ({ navigation }) => {
 
   }, [navigation])
 
-  // //This here auto refreshes data every what ever milliseconds
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     //Code that refreshes data
-  //     onRefresh();
-  //   }, 120000);
-  //   return () => clearInterval(interval)
-  // }, [])
-
   return (
     <View style={styles.container}>
       <FlatList
@@ -194,6 +185,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-  },
-
+  }
 });

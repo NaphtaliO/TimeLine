@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { logIn } from '../../state_management/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '@env';
+import { THEME_COLOUR } from '../../Constants';
 
 
 const CreateAccount = ({ navigation }) => {
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         marginTop: 30,
-        backgroundColor: '#3AB0FF',
+        backgroundColor: THEME_COLOUR,
         borderRadius: 10,
     },
     button: {

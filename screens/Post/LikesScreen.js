@@ -9,7 +9,6 @@ import ListEmpty from '../../Components/ListEmpty';
 const LikesScreen = ({route, navigation}) => {
     const { post_id } = route.params;
     const user = useSelector((state) => state.user.value);
-    const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [likes, setLikes] = useState([])
     const { logout } = useLogout()
@@ -61,7 +60,7 @@ const LikesScreen = ({route, navigation}) => {
           renderItem={({ item }) =>
               <View style={{ marginHorizontal: 20 }}>
                   <TouchableWithoutFeedback onPress={() => {
-                      navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
+                      navigation.push('UserProfileScreen', { username: item.username, id: item._id })
                   }}>
                       <View>
                           <View style={{ flexDirection: 'row', marginTop: 12 }}>

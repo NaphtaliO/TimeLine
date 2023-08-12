@@ -11,8 +11,8 @@ const Tab = createMaterialTopTabNavigator();
 const TopTabs = ({ id }) => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Followers" component={Followers} initialParams={{ id: id }} />
             <Tab.Screen name="Following" component={Following} initialParams={{ id: id }} />
+            <Tab.Screen name="Followers" component={Followers} initialParams={{ id: id }} />      
         </Tab.Navigator>
     )
 }
@@ -48,7 +48,6 @@ const Followers = ({ navigation, route }) => {
                 })
 
                 const json = await response.json()
-                setFollowers(json);
 
                 if (!response.ok) {
                     if (json.error === "Request is not authorized") {
@@ -56,7 +55,7 @@ const Followers = ({ navigation, route }) => {
                     }
                 }
                 if (response.ok) {
-
+                    setFollowers(json);
                 }
             } catch (error) {
                 console.log(error);
@@ -107,7 +106,6 @@ const Following = ({ navigation, route }) => {
                 })
 
                 const json = await response.json()
-                setFollowing(json);
 
                 if (!response.ok) {
                     if (json.error === "Request is not authorized") {
@@ -115,7 +113,7 @@ const Following = ({ navigation, route }) => {
                     }
                 }
                 if (response.ok) {
-
+                    setFollowing(json);
                 }
             } catch (error) {
                 console.log(error);

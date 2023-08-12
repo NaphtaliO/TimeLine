@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, Text, View, TextInput, ActivityIndicator, Touchab
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-picker/picker';
+import { THEME_COLOUR } from '../../../Constants';
 
 const PersonalInformation = () => {
     const user = useSelector((state) => state.user.value);
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         marginTop: 30,
-        backgroundColor: '#3AB0FF',
+        backgroundColor: THEME_COLOUR,
         borderRadius: 10,
         width: '90%',
     },

@@ -16,12 +16,12 @@ const Settings = ({ navigation }) => {
             description: "See and update account information, change your password.",
             onPress: () => navigation.navigate('Account Information')
         },
-        // {
-        //     id: 2,
-        //     title: "Favourites",
-        //     description: "View posts you Favourited.",
-        //     onPress: () => navigation.navigate('Security')
-        // },
+        {
+            id: 2,
+            title: "Favourites",
+            description: "View your favourite posts.",
+            onPress: () => navigation.navigate('Favourites')
+        },
         {
             id: 3,
             title: "Blocked Users",

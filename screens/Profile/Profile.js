@@ -140,10 +140,12 @@ const Profile = ({ navigation }) => {
             // refresh data here
             getPosts();
             getLikedPostsList();
+            refreshUser();
         });
         return () => unsubscribe();
 
     }, [navigation])
+    
     return (
         <Tabs.Container allowHeaderOverscroll={true}
             renderHeader={() =>

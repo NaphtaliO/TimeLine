@@ -89,7 +89,7 @@ const BlockedUsers = ({ navigation }) => {
             renderItem={({ item }) =>
                 <View style={{ marginHorizontal: 20 }}>
                     <TouchableWithoutFeedback onPress={() => {
-                            navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
+                            navigation.push('UserProfileScreen', { username: item.username, id: item._id })
                     }}>
                         <View>
                             <View style={{ flexDirection: 'row', marginTop: 12 }}>

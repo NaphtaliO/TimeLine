@@ -8,8 +8,8 @@ const SearchItems = ({ navigation, item }) => {
     return (
         <View style={{ margin: 12 }}>
             <TouchableOpacity onPress={() => { 
-                user._id === item._id ? navigation.navigate('ProfileStack') :
-                    navigation.navigate('UserProfileScreen', { username: item.username, id: item._id })
+                user._id === item._id ? navigation.push('ProfileStack') :
+                    navigation.push('UserProfileScreen', { username: item.username, id: item._id })
             }}>
                 <View style={{ flexDirection: 'row' }}>
                     <View>

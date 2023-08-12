@@ -97,8 +97,8 @@ const FeedPost = ({ navigation, item }) => {
         <>
             <View style={{ flexDirection: 'row', marginHorizontal: 5, marginTop: 10 }}>
                 <TouchableWithoutFeedback onPress={() => {
-                    user._id === item.user_id ? navigation.navigate('ProfileStack') :
-                        navigation.navigate('UserProfileScreen', { username: item.username, id: item.user_id })
+                    user._id === item.user_id ? navigation.push('ProfileStack') :
+                        navigation.push('UserProfileScreen', { username: item.username, id: item.user_id })
                 }}>
                     {/* avatar */}
                     <View style={{ flexDirection: 'row' }}>
@@ -132,8 +132,8 @@ const FeedPost = ({ navigation, item }) => {
             </View>
 
             <View style={{ flexDirection: 'row', marginBottom: 10, marginLeft: 'auto', marginRight: 7 }}>
-                <TouchableWithoutFeedback onPress={() => { navigation.navigate("CommentsScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.comments.length === 0 || item.comments.length > 1 ? `${item.comments.length} comments` : `${item.comments.length} comment`}</Text></TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { navigation.navigate("LikesScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.likes.length === 0 || item.likes.length > 1 ? `${item.likes.length} likes` : `${item.likes.length} like`}</Text></TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => { navigation.push("CommentsScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.comments.length === 0 || item.comments.length > 1 ? `${item.comments.length} comments` : `${item.comments.length} comment`}</Text></TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => { navigation.push("LikesScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.likes.length === 0 || item.likes.length > 1 ? `${item.likes.length} likes` : `${item.likes.length} like`}</Text></TouchableWithoutFeedback>
             </View>
             <ItemSeparator />
 
@@ -149,7 +149,7 @@ const FeedPost = ({ navigation, item }) => {
                     <Text style={styles.iconText}>Like</Text>
                 </TouchableOpacity>
                 {/* Comment Button */}
-                <TouchableOpacity style={styles.touchable} onPress={() => { navigation.navigate("CommentsScreen", { post_id: item._id }) }}>
+                <TouchableOpacity style={styles.touchable} onPress={() => { navigation.push("CommentsScreen", { post_id: item._id }) }}>
                     <FontAwesome name="comment-o" size={24} color="black" style={styles.icon} />
                     <Text style={styles.iconText}>Comment</Text>
                 </TouchableOpacity>

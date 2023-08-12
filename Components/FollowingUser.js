@@ -5,11 +5,10 @@ import CustomImage from './CustomImage'
 
 const FollowingUser = ({ navigation, item }) => {
     const user = useSelector((state) => state.user.value)
-    console.log(user._id);
-    console.log(item);
+
     return (
         <TouchableWithoutFeedback onPress={() => {
-                user._id === item._id ? navigation.navigate('ProfileStack') :
+                user._id === item._id ? navigation.push('ProfileStack') :
                     navigation.push('UserProfileScreen', { username: item.username, id: item._id })
             }}>
             <View>
