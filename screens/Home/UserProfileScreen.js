@@ -43,7 +43,6 @@ const UserProfileScreen = ({ navigation, route }) => {
                 Alert.alert(`${json.message}`, '', [
                     { text: 'OK', onPress: () => navigation.goBack() },
                 ]);
-
             }
             if (response.ok) {
                 setUser(json);
@@ -235,30 +234,6 @@ const UserProfileScreen = ({ navigation, route }) => {
     )
 }
 
-// //A PostList component of all the Users posts
-// const PostsList = ({ navigation, route }) => {
-//     const { id } = route.params;
-//     const authUser = useSelector((state) => state.user.value);
-//     const [loading, setLoading] = useState(false);
-//     const [posts, setPosts] = useState(null);
-//     return (
-//         <View style={styles.container} >
-//             {posts ?
-//                 <FlatList
-//                     scrollEnabled={true}
-//                     data={posts}
-//                     showsVerticalScrollIndicator={true}
-//                     renderItem={({ item }) =>
-//                         <View style={styles.postContainer}>
-//                             <ProfilePost navigation={navigation} item={item} />
-//                         </View>
-//                     }
-//                     keyExtractor={item => item._id} />
-//                 : null}
-//         </View>
-//     )
-// }
-
 export default UserProfileScreen;
 
 const styles = StyleSheet.create({
@@ -301,7 +276,6 @@ const styles = StyleSheet.create({
     postContainer: {
         padding: 10,
         borderTopWidth: .2,
-        //borderBottomWidth: .2,
         borderColor: 'black'
     },
     followingText: {

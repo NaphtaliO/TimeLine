@@ -4,6 +4,7 @@ import { deletePost } from "../state_management/postsSlice";
 import { deletePostInFeed } from "../state_management/feedSlice";
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { URL } from '@env';
+import { Alert } from "react-native";
 
 export const useDeletePost = () => {
     const user = useSelector((state) => state.user.value);
@@ -26,27 +27,35 @@ export const useDeletePost = () => {
     }
 
     const deletePostUI = async (id, uri) => {
-        await deleteFromFirebase(uri)
-        try {
-            const response = await fetch(`${URL}/api/posts/deletePost/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${user.token}`
-                },
-            });
-            const json = await response.json()
-            if (!response.ok) {
-                if (json.error === "Request is not authorized") {
-                    logout()
+        Alert.alert('Delete this post?', '', [
+            { text: 'Cancel', onPress: () => { }, style: 'cancel' },
+            {
+                text: 'Delete', style: 'default', onPress: async () => {
+                    await deleteFromFirebase(uri)
+                    try {
+                        const response = await fetch(`${URL}/api/posts/deletePost/${id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${user.token}`
+                            },
+                        });
+                        const json = await response.json()
+                        if (!response.ok) {
+                            if (json.error === "Request is not authorized") {
+                                logout()
+                            }
+                        }
+                        if (response.ok) {
+                            dispatch(deletePost(json));
+                            dispatch(deletePostInFeed(json))
+                        }
+                    } catch (error) {
+                        console.log(error.message);
+                    }
                 }
             }
-            if (response.ok) {
-                dispatch(deletePost(json));
-                dispatch(deletePostInFeed(json))
-            }
-        } catch (error) {
-            console.log(error.message);
-        }
+        ])
+
     };
 
     return { deletePostUI }

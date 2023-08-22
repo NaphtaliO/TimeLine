@@ -1,5 +1,6 @@
-import { Button, Image, StyleSheet, Text, View, ActionSheetIOS, TouchableWithoutFeedback, FlatList, TouchableOpacity, TextInput, ActivityIndicator, Alert } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import { Button, Image, StyleSheet, Text, View, TouchableWithoutFeedback, FlatList, TouchableOpacity, TextInput, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { update } from '../../state_management/userSlice';
@@ -8,7 +9,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "fire
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useLogout } from '../../hooks/useLogout';
-import validator from 'validator';
 import CustomImage from '../../Components/CustomImage';
 import { URL } from '@env';
 import { THEME_COLOUR } from '../../Constants';
@@ -16,6 +16,7 @@ import { THEME_COLOUR } from '../../Constants';
 
 const EditProfile = ({ navigation, route }) => {
   const { logout } = useLogout();
+  const { showActionSheetWithOptions } = useActionSheet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const user = useSelector((state) => state.user.value);
@@ -95,24 +96,24 @@ const EditProfile = ({ navigation, route }) => {
   ]
 
   const actionSheet = () => {
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["Cancel", "Upload from library", "Delete current photo"],
-        cancelButtonIndex: 0,
-        destructiveButtonIndex: 2,
-        userInterfaceStyle: 'dark'
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
+    showActionSheetWithOptions({
+      options: ["Cancel", "Upload from library", "Delete current photo"],
+      cancelButtonIndex: 0,
+      destructiveButtonIndex: 2,
+      userInterfaceStyle: 'dark'
+    }, (selectedIndex) => {
+      switch (selectedIndex) {
+        case 0:
+          // Cancel
+          break;
+        case 1:
           openImagePickerAsync();
-        } else if (buttonIndex === 2) {
+          break;
+        case 2:
           setImage("")
           setDeleteImage(true);
-        }
       }
-    );
+    });
   }
 
   const deleteProfilePicture = async () => {

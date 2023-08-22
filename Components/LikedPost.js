@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, Dimensions, TouchableWithoutFeedback, TouchableOpacity, ActionSheetIOS, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableWithoutFeedback, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import * as Haptics from 'expo-haptics';
+import { useActionSheet } from "@expo/react-native-action-sheet";
 import { FontAwesome, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -16,6 +17,7 @@ import { URL } from '@env';
 const windowWidth = Dimensions.get('window').width;
 
 const LikedPost = ({ navigation, item, updateLikedPostsList }) => {
+    const { showActionSheetWithOptions } = useActionSheet();
     const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user.value);
     const [likes, setLikes] = useState(item.likes)
@@ -59,37 +61,35 @@ const LikedPost = ({ navigation, item, updateLikedPostsList }) => {
 
     const bottomSheet = () => {
         if (item.user_id === user._id) {
-            ActionSheetIOS.showActionSheetWithOptions(
-                {
-                    options: ["Cancel", "Delete"],
-                    destructiveButtonIndex: 1,
-                    cancelButtonIndex: 0,
-                    userInterfaceStyle: 'dark'
-                },
-                buttonIndex => {
-                    if (buttonIndex === 0) {
-                        // cancel action
-                    } else if (buttonIndex === 1) {
+            showActionSheetWithOptions({
+                options: ["Cancel", "Delete"],
+                cancelButtonIndex: 0,
+                destructiveButtonIndex: 1
+            }, (selectedIndex) => {
+                switch (selectedIndex) {
+                    case 0:
+                        // Cancel
+                        break;
+                    case 1:
                         deletePostUI(item._id, item.uri).then(() => updateLikedPostsList(item._id))
-                    }
+                        break;
                 }
-            );
+            });
         } else {
-            ActionSheetIOS.showActionSheetWithOptions(
-                {
-                    options: ["Cancel", "Report"],
-                    destructiveButtonIndex: 1,
-                    cancelButtonIndex: 0,
-                    userInterfaceStyle: 'dark'
-                },
-                buttonIndex => {
-                    if (buttonIndex === 0) {
-                        // cancel action
-                    } else if (buttonIndex === 1) {
+            showActionSheetWithOptions({
+                options: ["Cancel", "Report"],
+                cancelButtonIndex: 0,
+                destructiveButtonIndex: 1
+            }, (selectedIndex) => {
+                switch (selectedIndex) {
+                    case 0:
+                        // Cancel
+                        break;
+                    case 1:
                         navigation.navigate('ReportScreen', { entityType: "Post", entityId: item._id })
-                    }
+                        break;
                 }
-            );
+            });
         }
 
     }
@@ -105,8 +105,8 @@ const LikedPost = ({ navigation, item, updateLikedPostsList }) => {
                     <View style={{ flexDirection: 'row' }}>
                         {item.avatar === null || item.avatar === "" ?
                             <Image style={styles.avatar} source={require('../assets/default_avatar.png')} />
-                            : 
-                         <CustomImage uri={item.avatar} style={styles.avatar} /> }
+                            :
+                            <CustomImage uri={item.avatar} style={styles.avatar} />}
                         <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(item.createdAt))} ago`}</Text>

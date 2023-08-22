@@ -1,4 +1,5 @@
-import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, RefreshControl, KeyboardAvoidingView, Text, ActivityIndicator, ActionSheetIOS } from 'react-native';
+import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, RefreshControl, KeyboardAvoidingView, Text } from 'react-native';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import React, { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import { URL } from '@env';
 import ListEmpty from '../../Components/ListEmpty';
 
 export default function CommentsScreen({ route, navigation }) {
+  const { showActionSheetWithOptions } = useActionSheet();
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -104,38 +106,36 @@ export default function CommentsScreen({ route, navigation }) {
 
   const actionSheet = (id, user_id) => {
     Haptics.selectionAsync()
-    if (user_id === user._id ) {
-      ActionSheetIOS.showActionSheetWithOptions(
-        {
-          options: ["Cancel", "Delete"],
-          destructiveButtonIndex: 1,
-          cancelButtonIndex: 0,
-          userInterfaceStyle: 'dark'
-        },
-        buttonIndex => {
-          if (buttonIndex === 0) {
-            // cancel action
-          } else if (buttonIndex === 1) {
-            deleteComment(id)
-          }
-        }
-      );
-    } else {
-      ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["Cancel", "Report"],
-        destructiveButtonIndex: 1,
+    if (user_id === user._id) {
+      showActionSheetWithOptions({
+        options: ["Cancel", "Delete"],
         cancelButtonIndex: 0,
-        userInterfaceStyle: 'dark'
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
-          navigation.navigate('ReportScreen', { entityType: "Comment", entityId: id })
+        destructiveButtonIndex: 1
+      }, (selectedIndex) => {
+        switch (selectedIndex) {
+          case 0:
+            // Cancel
+            break;
+          case 1:
+            deleteComment(id)
+            break;
         }
-      }
-    );
+      });
+    } else {
+      showActionSheetWithOptions({
+        options: ["Cancel", "Report"],
+        cancelButtonIndex: 0,
+        destructiveButtonIndex: 1
+      }, (selectedIndex) => {
+        switch (selectedIndex) {
+          case 0:
+            // Cancel
+            break;
+          case 1:
+            navigation.navigate('ReportScreen', { entityType: "Comment", entityId: id })
+            break;
+        }
+      });
     }
     
   }

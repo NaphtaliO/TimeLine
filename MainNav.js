@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, ActionSheetIOS, Alert } from "react-native";
+import { TouchableOpacity, Alert } from "react-native";
+import { useActionSheet } from "@expo/react-native-action-sheet";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
-  Entypo,
   Feather,
   FontAwesome,
   Foundation,
@@ -41,7 +41,7 @@ import ChatScreen from "./screens/Chat/ChatScreen";
 import NewChat from "./screens/Chat/NewChat";
 import LikesScreen from "./screens/Post/LikesScreen";
 import ChangePasswordContinued from "./screens/Profile/Settings/ChangePasswordContinued";
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo from "@react-native-community/netinfo";
 import { useToast } from "react-native-toast-notifications";
 import Favourites from "./screens/Profile/Settings/Favourites";
 import ForgotPassword from "./screens/Authentication/ForgotPassword";
@@ -153,11 +153,10 @@ const TabNav = ({ navigation }) => {
 const MainNav = ({ route }) => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
-  const [isConnected, setIsConnected] = useState(true);
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
   const { logout } = useLogout();
-  
+  const { showActionSheetWithOptions } = useActionSheet();
 
   useEffect(() => {
     const getData = async () => {
@@ -179,54 +178,59 @@ const MainNav = ({ route }) => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
-      try {    
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      try {
         if (!state.isConnected) {
-          toast.show("No Internet Connection")
+          toast.show("No Internet Connection");
         }
       } catch (error) {
         console.log(error.message);
       }
-    })
+    });
 
     return () => unsubscribe();
-  }, [])
+  }, []);
 
   const bottomSheet = ({ navigation, id, username }) => {
-    ActionSheetIOS.showActionSheetWithOptions(
+    showActionSheetWithOptions(
       {
         options: ["Cancel", "Report", "Block"],
-        destructiveButtonIndex: 1,
         cancelButtonIndex: 0,
+        destructiveButtonIndex: 1,
         userInterfaceStyle: "dark",
       },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
-          navigation.navigate("ReportScreen", {
-            entityType: "User",
-            entityId: id,
-          });
-        } else if (buttonIndex === 2) {
-          Alert.alert(
-            `Block @${username}?`,
-            "They won't be able to find your profile or posts. They won't know you blocked them",
-            [
-              {
-                text: "Cancel",
-                onPress: () => {},
-                style: "cancel",
-              },
-              {
-                text: "Block",
-                style: "destructive",
-                onPress: () => {
-                  blockUser(id, navigation);
+      (selectedIndex) => {
+        switch (selectedIndex) {
+          case 0:
+            // cancel
+            break;
+
+          case 1:
+            navigation.navigate("ReportScreen", {
+              entityType: "User",
+              entityId: id,
+            });
+            break;
+
+          case 2:
+            Alert.alert(
+              `Block @${username}?`,
+              "They won't be able to find your profile or posts. They won't know you blocked them",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => {},
+                  style: "cancel",
                 },
-              },
-            ]
-          );
+                {
+                  text: "Block",
+                  style: "destructive",
+                  onPress: () => {
+                    blockUser(id, navigation);
+                  },
+                },
+              ]
+            );
         }
       }
     );

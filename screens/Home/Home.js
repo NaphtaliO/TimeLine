@@ -10,6 +10,10 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { setToken } from '../../state_management/notificationTokenSlice';
 import { URL } from '@env';
+import Constants from "expo-constants";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from "@react-native-community/netinfo";
+
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -39,12 +43,13 @@ async function registerForPushNotificationsAsync() {
       finalStatus = status;
     }
     if (finalStatus !== 'granted') {
-      // alert('Failed to get push token for push notification!');
+      alert('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    token = (await Notifications.getExpoPushTokenAsync({ projectId: Constants.expoConfig.extra.eas.projectId })).data
+    console.log(token);
   } else {
-    //alert('Must use physical device for Push Notifications');
+    // alert('Must use physical device for Push Notifications');
     return;
   }
 
@@ -82,7 +87,7 @@ const Home = ({ navigation }) => {
         }
       }
       if (response.ok) {
-        console.log("Success");
+        // console.log("Success");
       }
     } catch (error) {
       console.log(error.message);
@@ -104,7 +109,7 @@ const Home = ({ navigation }) => {
       // console.log(response.notification.request.content.data);
       if (data.type === "following") {
         navigation.push('UserProfileScreen', { username: data.username, id: data.id })
-      }else if (data.type === "comment") {
+      } else if (data.type === "comment") {
         navigation.push("CommentsScreen", { post_id: data.post_id })
       } else if (data.type === "liked") {
         navigation.push("LikesScreen", { post_id: data.post_id })
@@ -116,7 +121,6 @@ const Home = ({ navigation }) => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
-
 
   const onRefresh = async () => {
     getFeed();
@@ -141,6 +145,8 @@ const Home = ({ navigation }) => {
         }
       }
       if (response.ok) {
+        // cache the feed data
+        await AsyncStorage.setItem('feed', JSON.stringify(json))
         dispatch(setFeed(json))
       }
     } catch (error) {
@@ -157,6 +163,25 @@ const Home = ({ navigation }) => {
     return () => unsubscribe();
 
   }, [navigation])
+
+  useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(async(state) => {
+      try {
+        if (!state.isConnected) {
+          const feed = JSON.parse(await AsyncStorage.getItem("feed"));
+          if (feed) {
+            dispatch(setFeed(feed))
+          }
+        } else {
+          getFeed();
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={styles.container}>

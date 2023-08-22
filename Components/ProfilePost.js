@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, Dimensions, TouchableWithoutFeedback, TouchableOpacity, ActionSheetIOS, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableWithoutFeedback, TouchableOpacity, Image } from 'react-native';
 import React, { useState } from 'react';
 import * as Haptics from 'expo-haptics';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { FontAwesome, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ItemSeparator from './ItemSeparator';
 import { useLogout } from '../hooks/useLogout';
@@ -21,7 +22,8 @@ const ProfilePost = ({ navigation, item }) => {
     const [comments, setComments] = useState(item.comments)
     const { logout } = useLogout()
     const { addToFavourites } = useAddToFavourites()
-    const {deletePostUI} = useDeletePost()
+    const { showActionSheetWithOptions } = useActionSheet();
+    const { deletePostUI } = useDeletePost()
 
     const addPostToFavourites = async () => {
         addToFavourites(item._id)
@@ -57,41 +59,39 @@ const ProfilePost = ({ navigation, item }) => {
 
     const bottomSheet = () => {
         if (item.user_id === user._id) {
-            ActionSheetIOS.showActionSheetWithOptions(
-                {
-                    options: ["Cancel", "Delete"],
-                    destructiveButtonIndex: 1,
-                    cancelButtonIndex: 0,
-                    userInterfaceStyle: 'dark'
-                },
-                buttonIndex => {
-                    if (buttonIndex === 0) {
-                        // cancel action
-                    } else if (buttonIndex === 1) {
-                       deletePostUI(item._id, item.uri)
-                    }
-                }
-            );
-        } else {
-            ActionSheetIOS.showActionSheetWithOptions(
-            {
-                options: ["Cancel", "Report"],
-                destructiveButtonIndex: 1,
+            showActionSheetWithOptions({
+                options: ["Cancel", "Delete"],
                 cancelButtonIndex: 0,
-                userInterfaceStyle: 'dark'
-            },
-            buttonIndex => {
-                if (buttonIndex === 0) {
-                    // cancel action
-                } else if (buttonIndex === 1) {
-                    navigation.navigate('ReportScreen', { entityType: "Post", entityId: item._id })
+                destructiveButtonIndex: 1
+            }, (selectedIndex) => {
+                switch (selectedIndex) {
+                    case 0:
+                        // Cancel
+                        break;
+                    case 1:
+                        deletePostUI(item._id, item.uri)
+                        break;
                 }
-            }
-        );
+            });
+        } else {
+            showActionSheetWithOptions({
+                options: ["Cancel", "Report"],
+                cancelButtonIndex: 0,
+                destructiveButtonIndex: 1
+            }, (selectedIndex) => {
+                switch (selectedIndex) {
+                    case 0:
+                        // Cancel
+                        break;
+                    case 1:
+                        navigation.navigate('ReportScreen', { entityType: "Post", entityId: item._id })
+                        break;
+                }
+            });
         }
-        
+
     }
- 
+
     return (
         <>
             <View style={{ flexDirection: 'row', marginHorizontal: 5, marginTop: 10 }}>
@@ -101,10 +101,10 @@ const ProfilePost = ({ navigation, item }) => {
                 }}>
                     {/* avatar */}
                     <View style={{ flexDirection: 'row' }}>
-                        {item.avatar === null || item.avatar === "" ? 
+                        {item.avatar === null || item.avatar === "" ?
                             <Image style={styles.avatar} source={require('../assets/default_avatar.png')} />
-                        : 
-                         <CustomImage uri={item.avatar} style={styles.avatar} /> }
+                            :
+                            <CustomImage uri={item.avatar} style={styles.avatar} />}
                         <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.name}>{item.name}</Text>
                             <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(item.createdAt))} ago`}</Text>
@@ -124,9 +124,9 @@ const ProfilePost = ({ navigation, item }) => {
             <View style={{ marginVertical: 10 }}>
                 {/* Image  */}
                 {/* If image is null do nothing else return image */}
-                {item.uri === null || item.uri === "" ? null : 
+                {item.uri === null || item.uri === "" ? null :
                     <CustomImage uri={item.uri} style={styles.image}
-                resizeMode={''} />
+                        resizeMode={''} />
                 }
             </View>
 

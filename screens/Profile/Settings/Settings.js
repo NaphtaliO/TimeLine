@@ -1,12 +1,10 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
 import { useLogout } from '../../../hooks/useLogout';
 
 
 const Settings = ({ navigation }) => {
-    const dispatch = useDispatch();
     const { logout } = useLogout()
 
     const DATA = [
@@ -25,7 +23,7 @@ const Settings = ({ navigation }) => {
         {
             id: 3,
             title: "Blocked Users",
-            // description: "View posts you Favourited.",
+            description: "View blocked users",
             onPress: () => navigation.navigate('BlockedUsers')
         },
         {
@@ -44,7 +42,6 @@ const Settings = ({ navigation }) => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) =>
                     <TouchableOpacity onPress={item.onPress}>
-                        {/* </TouchableOpacity> */}
                         <View style={styles.boxContainer}>
                             <View>
                                 <Text style={{ fontSize: 20, alignSelf: 'flex-start', fontWeight: '500', color: item.color }}>{item.title}</Text>

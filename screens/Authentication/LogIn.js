@@ -1,4 +1,4 @@
-import { TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image } from 'react-native';
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';

@@ -1,10 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useSelector } from 'react-redux';
 import FollowingUser from '../../Components/FollowingUser';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
+import ListEmpty from '../../Components/ListEmpty';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,7 +13,7 @@ const TopTabs = ({ id }) => {
     return (
         <Tab.Navigator>
             <Tab.Screen name="Following" component={Following} initialParams={{ id: id }} />
-            <Tab.Screen name="Followers" component={Followers} initialParams={{ id: id }} />      
+            <Tab.Screen name="Followers" component={Followers} initialParams={{ id: id }} />
         </Tab.Navigator>
     )
 }
@@ -67,18 +68,18 @@ const Followers = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            {followers.length !== 0 ?
-                <FlatList
-                    scrollEnabled={true}
-                    data={followers}
-                    showsVerticalScrollIndicator={true}
-                    renderItem={({ item }) =>
-                        <View style={{ marginHorizontal: 20 }}>
-                            <FollowingUser navigation={navigation} item={item} />
-                        </View>
-                    }
-                    keyExtractor={item => item._id} />
-                : null}
+            <FlatList
+                scrollEnabled={true}
+                data={followers}
+                showsVerticalScrollIndicator={true}
+                renderItem={({ item }) =>
+                    <View style={{ marginHorizontal: 20 }}>
+                        <FollowingUser navigation={navigation} item={item} />
+                    </View>
+                }
+                keyExtractor={item => item._id}
+                ListEmptyComponent={<ListEmpty title={"Followers"} message={"People you follow will show up here"} />}
+            />
         </View>
     );
 }
@@ -125,18 +126,19 @@ const Following = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            {following.length !== 0 ?
-                <FlatList
-                    scrollEnabled={true}
-                    data={following}
-                    showsVerticalScrollIndicator={true}
-                    renderItem={({ item }) =>
-                        <View style={{ marginHorizontal: 15 }}>
-                            <FollowingUser navigation={navigation} item={item} />
-                        </View>
-                    }
-                    keyExtractor={item => item._id} />
-                : null}
+            <FlatList
+                scrollEnabled={true}
+                data={following}
+                showsVerticalScrollIndicator={true}
+                renderItem={({ item }) =>
+                    <View style={{ marginHorizontal: 15 }}>
+                        <FollowingUser navigation={navigation} item={item} />
+                    </View>
+                }
+                keyExtractor={item => item._id}
+                ListEmptyComponent={<ListEmpty title={"Following"} message={"Follow people and you'll see them here"} />}
+
+            />
         </View>
     );
 }

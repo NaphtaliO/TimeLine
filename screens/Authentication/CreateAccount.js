@@ -1,4 +1,4 @@
-import { TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image } from 'react-native'
+import { TouchableOpacity, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image } from 'react-native'
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../state_management/userSlice';

@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, Dimensions, Image, TouchableWithoutFeedback, TouchableOpacity, ActionSheetIOS } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { updatePost } from '../state_management/postsSlice';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { updateFavourites } from '../state_management/userSlice';
 import ItemSeparator from './ItemSeparator'
 import { useLogout } from '../hooks/useLogout';
 import { useDeletePost } from '../hooks/useDeletePost';
@@ -22,6 +22,7 @@ const Post = ({ navigation, user, item }) => {
     const { logout } = useLogout()
     const { deletePostUI } = useDeletePost();
     const { addToFavourites } = useAddToFavourites();
+    const { showActionSheetWithOptions } = useActionSheet();
 
     const addPostToFavourites = async () => {
         addToFavourites(item._id)
@@ -60,21 +61,20 @@ const Post = ({ navigation, user, item }) => {
     }
 
     const bottomSheet = () => {
-        ActionSheetIOS.showActionSheetWithOptions(
-            {
-                options: ["Cancel", "Delete"],
-                destructiveButtonIndex: 1,
-                cancelButtonIndex: 0,
-                userInterfaceStyle: 'dark'
-            },
-            buttonIndex => {
-                if (buttonIndex === 0) {
-                    // cancel action
-                } else if (buttonIndex === 1) {
+        showActionSheetWithOptions({
+            options: ["Cancel", "Delete"],
+            cancelButtonIndex: 0,
+            destructiveButtonIndex: 1
+        }, (selectedIndex) => {
+            switch (selectedIndex) {
+                case 0:
+                    // Cancel
+                    break;
+                case 1:
                     deletePostUI(item._id, item.uri)
-                }
+                    break;
             }
-        );
+        });
     }
 
     return (

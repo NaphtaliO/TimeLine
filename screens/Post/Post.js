@@ -190,7 +190,9 @@ export default function Post({ route, navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" keyboardVerticalOffset={84}>
+        <KeyboardAvoidingView style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={84}>
             <ScrollView style={styles.container} scrollEnabled={true}>
                 <View>
                     <TextInput
