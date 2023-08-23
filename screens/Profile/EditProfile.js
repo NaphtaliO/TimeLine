@@ -73,7 +73,7 @@ const EditProfile = ({ navigation, route }) => {
           multiline={true}
           maxLength={200}
           numberOfLines={1}
-          autoCorrect={false}
+          autoCorrect={true}
           clearTextOnFocus={false}
         />
       )
