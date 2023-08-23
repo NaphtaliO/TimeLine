@@ -10,7 +10,8 @@ export const useLogout = () => {
     const logout = async () => {
         try {
             //remove user from react native storage
-            await AsyncStorage.removeItem('user')
+            await AsyncStorage.removeItem('user');
+            await AsyncStorage.removeItem('feed');
             //update redux state
             dispatch(setPosts([]));
             dispatch(setFeed([]));
