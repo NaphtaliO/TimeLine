@@ -21,7 +21,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.naphtali2003.TimeLine",
-      "buildNumber": "3"
+      "buildNumber": "5"
     },
     "android": {
       "package": "com.naphtali2003.TimeLine",
@@ -33,7 +33,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
