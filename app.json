@@ -24,12 +24,9 @@
       "buildNumber": "6"
     },
     "android": {
+      "icon": "./assets/android_icon.png",
       "package": "com.naphtali2003.TimeLine",
       "googleServicesFile": "./google-services.json",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
