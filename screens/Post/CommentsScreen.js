@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, RefreshControl, KeyboardAvoidingView, Text } from 'react-native';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import React, { useEffect, useState } from 'react';
-import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 import Comment from '../../Components/Comment';
 import * as Haptics from 'expo-haptics';
@@ -154,7 +153,7 @@ export default function CommentsScreen({ route, navigation }) {
             <Comment item={item} navigation={navigation} actionSheet={actionSheet} />
         }
         keyExtractor={item => item._id}
-        ListEmptyComponent={<ListEmpty title={"No Comments yet"} message={`Comments on your post will appear here`} />}
+        ListEmptyComponent={<ListEmpty title={"No Comments yet"} message={`Comments on this post will appear here`} />}
       />
 
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -175,7 +174,6 @@ export default function CommentsScreen({ route, navigation }) {
               multiline={true}
             />
             <TouchableOpacity onPress={createComment} style={{ alignItems: 'center', justifyContent: 'center' }}>
-              {/* <Ionicons name="send-outline" size={24} color="black" /> */}
               <Text>Send</Text>
             </TouchableOpacity>
           </View>
