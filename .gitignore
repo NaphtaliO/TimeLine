@@ -11,6 +11,7 @@ npm-debug.*
 web-build/
 .env
 pc-api-6432606947597063507-120-c1626ca36e1f.json
+google-services.json
 
 # macOS
 .DS_Store
