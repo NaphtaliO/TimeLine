@@ -13,10 +13,10 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import { useSelector } from "react-redux";
-import { maskEmail } from "../../../functions";
+import { maskEmail } from "../../../constants/functions";
 import { useLogout } from "../../../hooks/useLogout";
 import { URL } from "@env";
-import { THEME_COLOUR } from "../../../Constants";
+import { THEME_COLOUR } from "../../../constants/colors";
 
 const CELL_COUNT = 6;
 

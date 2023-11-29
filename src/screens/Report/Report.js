@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useLogout } from '../../hooks/useLogout';
 import { useSelector } from 'react-redux';
 import { URL } from '@env';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 const Report = ({ navigation, route }) => {
     const { entityType, entityId } = route.params;

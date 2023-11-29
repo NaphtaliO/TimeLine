@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout";
-import { updateFavourites } from "../src/redux/userSlice";
+import { updateFavourites } from "../redux/userSlice";
 import { URL } from '@env';
 
 export const useAddToFavourites = () => {

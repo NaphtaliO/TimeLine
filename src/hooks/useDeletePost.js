@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout";
-import { deletePost } from "../src/redux/postsSlice";
-import { deletePostInFeed } from "../src/redux/feedSlice";
+import { deletePost } from "../redux/postsSlice";
+import { deletePostInFeed } from "../redux/feedSlice";
 import { getStorage, ref, deleteObject } from 'firebase/storage';
 import { URL } from '@env';
 import { Alert } from "react-native";

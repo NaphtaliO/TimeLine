@@ -1,128 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Alert } from "react-native";
 import { useActionSheet } from "@expo/react-native-action-sheet";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  Feather,
-  FontAwesome,
-  Foundation,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import Profile from "./screens/Profile/Profile";
-import Home from "./screens/Home/Home";
-import Settings from "./screens/Profile/Settings/Settings";
-import EditProfile from "./screens/Profile/EditProfile";
-import Post from "./screens/Post/Post";
-import Loading from "./Components/Loading";
+import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import Profile from "../screens/Profile/Profile";
+import Settings from "../screens/Profile/Settings/Settings";
+import EditProfile from "../screens/Profile/EditProfile";
+import Post from "../screens/Post/Post";
+import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import PostScreen from "./screens/Post/PostScreen";
-import CreateAccount from "./screens/Authentication/CreateAccount";
-import LogIn from "./screens/Authentication/LogIn";
+import CreateAccount from "../screens/Authentication/CreateAccount";
+import LogIn from "../screens/Authentication/LogIn";
 import { logIn, update } from "../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CommentsScreen from "./screens/Post/CommentsScreen";
-import FollowingScreen from "./screens/Profile/FollowingScreen";
-import UserProfileScreen from "./screens/Home/UserProfileScreen";
-import Search from "./screens/Search/Search";
-import AccountInformation from "./screens/Profile/Settings/AccountInformation";
-import DeleteAccount from "./screens/Profile/Settings/DeleteAccount";
-import PersonalInformation from "./screens/Profile/Settings/PersonalInformation";
-import Security from "./screens/Profile/Settings/Security";
-import ChangePassword from "./screens/Profile/Settings/ChangePassword";
-import Report from "./screens/Report/Report";
-import { useLogout } from "./hooks/useLogout";
+import CommentsScreen from "../screens/Post/CommentsScreen";
+import FollowingScreen from "../screens/Profile/FollowingScreen";
+import UserProfileScreen from "../screens/Home/UserProfileScreen";
+import AccountInformation from "../screens/Profile/Settings/AccountInformation";
+import DeleteAccount from "../screens/Profile/Settings/DeleteAccount";
+import PersonalInformation from "../screens/Profile/Settings/PersonalInformation";
+import Security from "../screens/Profile/Settings/Security";
+import ChangePassword from "../screens/Profile/Settings/ChangePassword";
+import Report from "../screens/Report/Report";
+import { useLogout } from "../hooks/useLogout";
 import { URL } from "@env";
-import TermsAndConditions from "./Components/TermsAndConditions";
-import BlockedUsers from "./screens/Profile/Settings/BlockedUsers";
-import LikesScreen from "./screens/Post/LikesScreen";
-import ChangePasswordContinued from "./screens/Profile/Settings/ChangePasswordContinued";
+import TermsAndConditions from "../components/TermsAndConditions";
+import BlockedUsers from "../screens/Profile/Settings/BlockedUsers";
+import LikesScreen from "../screens/Post/LikesScreen";
+import ChangePasswordContinued from "../screens/Profile/Settings/ChangePasswordContinued";
 import NetInfo from "@react-native-community/netinfo";
 import { useToast } from "react-native-toast-notifications";
-import Favourites from "./screens/Profile/Settings/Favourites";
-import ForgotPassword from "./screens/Authentication/ForgotPassword";
-import ForgotPassword2 from "./screens/Authentication/ForgotPassword2";
-import ForgotPassword3 from "./screens/Authentication/ForgotPassword3";
+import Favourites from "../screens/Profile/Settings/Favourites";
+import TabNav from "./TabNav";
+// import ForgotPassword from "../screens/Authentication/ForgotPassword";
+// import ForgotPassword2 from "../screens/Authentication/ForgotPassword2";
+// import ForgotPassword3 from "../screens/Authentication/ForgotPassword3";
 
-const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const TabNav = ({ navigation }) => {
-  const user = useSelector((state) => state.user.value);
-
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          if (route.name === "Home") {
-            return <Foundation name="home" size={size} color={color} />;
-          }
-          if (route.name === "Search") {
-            return <FontAwesome name="search" size={size} color={color} />;
-          }
-          if (route.name === "PostScreen") {
-            return <Feather name="plus-square" size={size} color={color} />;
-          }
-          if (route.name === "Profile") {
-            return <Ionicons name="person-outline" size={size} color={color} />;
-          }
-        },
-        tabBarActiveTintColor: "black",
-        tabBarInactiveTintColor: "gray",
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          display: "flex",
-        },
-      })}
-    >
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerTitle: "TimeLine",
-        }}
-      />
-      <Tab.Screen
-        name="Search"
-        component={Search}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="PostScreen"
-        component={PostScreen}
-        options={{}}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            navigation.navigate("Post");
-          },
-        })}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-              <Ionicons
-                name="ios-settings-outline"
-                size={24}
-                color="black"
-                style={{ marginRight: 15 }}
-              />
-            </TouchableOpacity>
-          ),
-          headerTitle: user.username,
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-const MainNav = ({ route }) => {
+const MainNav = () => {
   const toast = useToast();
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user.value);
@@ -451,7 +367,7 @@ const MainNav = ({ route }) => {
                 headerShown: false,
               }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name="ForgotPassword"
               component={ForgotPassword}
               options={{
@@ -471,7 +387,7 @@ const MainNav = ({ route }) => {
               options={{
                 headerTitle: "Reset",
               }}
-            />
+            /> */}
           </>
         )}
       </Stack.Navigator>

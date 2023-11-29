@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLogout } from '../hooks/useLogout';
 import { URL } from '@env';
-import { update } from '../src/redux/userSlice';
+import { update } from '../redux/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TermsAndConditions = ({ }) => {

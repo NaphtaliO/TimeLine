@@ -2,9 +2,9 @@ import { TouchableOpacity, TouchableWithoutFeedback, Keyboard, StyleSheet, Text,
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../src/redux/userSlice';
+import { logIn } from '../../redux/userSlice';
 import { URL } from '@env';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 const LogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");

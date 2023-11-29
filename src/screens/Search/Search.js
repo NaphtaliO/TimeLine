@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import SearchItems from '../../Components/SearchItems';
+import SearchItems from '../../components/SearchItems';
 import { SearchBar } from '@rneui/themed';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
@@ -33,7 +33,7 @@ const Search = ({ navigation }) => {
         if (response.ok) {
           setUsers(json)
         }
-        
+
       } catch (error) {
         console.log(error.message);
       }
@@ -60,19 +60,19 @@ const Search = ({ navigation }) => {
       />
       {loading ? <ActivityIndicator color={'black'} /> :
         user.length !== 0 && text !== '' ?
-        <FlatList
-          ListEmptyComponent={
-            <View>
-              <Text style={{ marginLeft: 'auto', marginRight: 'auto' }}>No results for "{text}"</Text>
-            </View>
-          }
-          contentInsetAdjustmentBehavior="automatic"
-          data={users}
-          renderItem={({ item }) =>
-            <SearchItems navigation={navigation} item={item} />
-          }
-          keyExtractor={item => item._id} />
-          : 
+          <FlatList
+            ListEmptyComponent={
+              <View>
+                <Text style={{ marginLeft: 'auto', marginRight: 'auto' }}>No results for "{text}"</Text>
+              </View>
+            }
+            contentInsetAdjustmentBehavior="automatic"
+            data={users}
+            renderItem={({ item }) =>
+              <SearchItems navigation={navigation} item={item} />
+            }
+            keyExtractor={item => item._id} />
+          :
           <Text style={{ marginLeft: 'auto', marginRight: 'auto', fontWeight: '500', fontSize: 20, marginTop: 20 }}>
             Search for users on TimeLine
           </Text>

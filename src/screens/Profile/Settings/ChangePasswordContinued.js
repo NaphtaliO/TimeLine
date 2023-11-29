@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { URL } from "@env";
 import { useLogout } from "../../../hooks/useLogout";
 import { useSelector } from "react-redux";
-import { THEME_COLOUR } from "../../../Constants";
+import { THEME_COLOUR } from "../../../constants/colors";
 
 const ChangePasswordContinued = ({ navigation }) => {
   const user = useSelector((state) => state.user.value);

@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useLogout } from '../../../hooks/useLogout';
 import { URL } from '@env';
-import CustomImage from '../../../Components/CustomImage';
-import ListEmpty from '../../../Components/ListEmpty';
+import CustomImage from '../../../components/CustomImage';
+import ListEmpty from '../../../components/ListEmpty';
 
 const BlockedUsers = ({ navigation }) => {
     const user = useSelector((state) => state.user.value);
@@ -89,7 +89,7 @@ const BlockedUsers = ({ navigation }) => {
             renderItem={({ item }) =>
                 <View style={{ marginHorizontal: 20 }}>
                     <TouchableWithoutFeedback onPress={() => {
-                            navigation.push('UserProfileScreen', { username: item.username, id: item._id })
+                        navigation.push('UserProfileScreen', { username: item.username, id: item._id })
                     }}>
                         <View>
                             <View style={{ flexDirection: 'row', marginTop: 12 }}>
@@ -103,7 +103,7 @@ const BlockedUsers = ({ navigation }) => {
                                     <Text>{item.username}</Text>
                                 </View>
                                 <View style={{ marginLeft: 'auto', justifyContent: 'center' }}>
-                                    <Button title='unblock' onPress={() => unBlockUser(item._id)}/>
+                                    <Button title='unblock' onPress={() => unBlockUser(item._id)} />
                                 </View>
                             </View>
                         </View>

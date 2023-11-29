@@ -7,11 +7,11 @@ import { v4 as uuidv4 } from 'uuid';
 import 'react-native-get-random-values';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPosts } from '../../src/redux/postsSlice';
-import { addToFeed } from '../../src/redux/feedSlice';
+import { createPosts } from '../../redux/postsSlice';
+import { addToFeed } from '../../redux/feedSlice';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 export default function Post({ navigation }) {
     const [loading, setLoading] = useState(false);

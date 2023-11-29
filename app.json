@@ -4,10 +4,10 @@
     "slug": "TimeLine",
     "version": "2.1.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./src/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,7 @@
       "buildNumber": "6"
     },
     "android": {
-      "icon": "./assets/android_icon.png",
+      "icon": "./src/assets/android_icon.png",
       "package": "com.naphtali2003.TimeLine",
       "googleServicesFile": "./google-services.json",
       "permissions": [
@@ -34,7 +34,7 @@
       "versionCode": 4
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./src/assets/favicon.png"
     },
     "extra": {
       "eas": {

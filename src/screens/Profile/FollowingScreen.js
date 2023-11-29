@@ -2,10 +2,10 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useState, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useSelector } from 'react-redux';
-import FollowingUser from '../../Components/FollowingUser';
+import FollowingUser from '../../components/FollowingUser';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
-import ListEmpty from '../../Components/ListEmpty';
+import ListEmpty from '../../components/ListEmpty';
 
 const Tab = createMaterialTopTabNavigator();
 

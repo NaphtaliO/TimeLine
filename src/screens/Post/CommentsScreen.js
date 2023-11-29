@@ -2,11 +2,11 @@ import { FlatList, StyleSheet, TextInput, TouchableOpacity, View, RefreshControl
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Comment from '../../Components/Comment';
+import Comment from '../../components/Comment';
 import * as Haptics from 'expo-haptics';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
-import ListEmpty from '../../Components/ListEmpty';
+import ListEmpty from '../../components/ListEmpty';
 
 export default function CommentsScreen({ route, navigation }) {
   const { showActionSheetWithOptions } = useActionSheet();

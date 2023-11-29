@@ -17,8 +17,8 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDistanceToNowStrict } from "date-fns";
-import { updatePostInFeed } from "../src/redux/feedSlice";
-import { updateFavourites } from "../src/redux/userSlice";
+import { updatePostInFeed } from "../redux/feedSlice";
+import { updateFavourites } from "../redux/userSlice";
 import ItemSeparator from "./ItemSeparator";
 import { useLogout } from "../hooks/useLogout";
 import { useDeletePost } from "../hooks/useDeletePost";

@@ -2,9 +2,9 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { ToastProvider } from "react-native-toast-notifications";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
-import MainNav from "./MainNav";
+import MainNav from "./src/navigation/MainNav";
 import { Provider } from "react-redux";
-import store from "./state_management/store";
+import store from "./src/redux/store";
 
 // Import the functions you need from the SDKs you need
 import { getApps, initializeApp } from "firebase/app";

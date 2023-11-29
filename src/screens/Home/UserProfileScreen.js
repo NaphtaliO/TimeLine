@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, RefreshControl, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProfilePost from '../../Components/ProfilePost';
-import { follow } from '../../src/redux/userSlice';
+import ProfilePost from '../../components/ProfilePost';
+import { follow } from '../../redux/userSlice';
 import { Tabs } from 'react-native-collapsible-tab-view';
-import ItemSeparator from '../../Components/ItemSeparator';
+import ItemSeparator from '../../components/ItemSeparator';
 import { useLogout } from '../../hooks/useLogout';
-import ListEmpty from '../../Components/ListEmpty';
-import CustomImage from '../../Components/CustomImage';
+import ListEmpty from '../../components/ListEmpty';
+import CustomImage from '../../components/CustomImage';
 import { URL } from '@env';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 const UserProfileScreen = ({ navigation, route }) => {
     const { id } = route.params;

@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
 import { useSelector } from 'react-redux';
-import CustomImage from '../../Components/CustomImage';
-import ListEmpty from '../../Components/ListEmpty';
+import CustomImage from '../../components/CustomImage';
+import ListEmpty from '../../components/ListEmpty';
 
-const LikesScreen = ({route, navigation}) => {
+const LikesScreen = ({ route, navigation }) => {
     const { post_id } = route.params;
     const user = useSelector((state) => state.user.value);
     const [refreshing, setRefreshing] = useState(false);
@@ -49,39 +49,39 @@ const LikesScreen = ({route, navigation}) => {
     const onRefresh = () => {
         getLikes();
     }
-    
-  return (
-      <FlatList
-          style={styles.container}
-          scrollEnabled={true}
-          data={likes}
-          showsVerticalScrollIndicator={true}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-          renderItem={({ item }) =>
-              <View style={{ marginHorizontal: 20 }}>
-                  <TouchableWithoutFeedback onPress={() => {
-                      navigation.push('UserProfileScreen', { username: item.username, id: item._id })
-                  }}>
-                      <View>
-                          <View style={{ flexDirection: 'row', marginTop: 12 }}>
-                              <View style={{}}>
-                                  {item.avatar === null || item.avatar === "" ?
-                                      <Image style={styles.image} source={require('../../assets/default_avatar.png')} /> :
-                                      <CustomImage style={styles.image} uri={item.avatar} />}
-                              </View>
-                              <View style={{ justifyContent: 'center', paddingLeft: 10 }}>
-                                  <Text>{item.name}</Text>
-                                  <Text>{item.username}</Text>
-                              </View>
-                          </View>
-                      </View>
-                  </TouchableWithoutFeedback>
-              </View>
-          }
-          keyExtractor={item => item._id}
-          ListEmptyComponent={<ListEmpty title={"No Likes yet"} message={`People who like your post will show up here`} />}
-      />
-  )
+
+    return (
+        <FlatList
+            style={styles.container}
+            scrollEnabled={true}
+            data={likes}
+            showsVerticalScrollIndicator={true}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            renderItem={({ item }) =>
+                <View style={{ marginHorizontal: 20 }}>
+                    <TouchableWithoutFeedback onPress={() => {
+                        navigation.push('UserProfileScreen', { username: item.username, id: item._id })
+                    }}>
+                        <View>
+                            <View style={{ flexDirection: 'row', marginTop: 12 }}>
+                                <View style={{}}>
+                                    {item.avatar === null || item.avatar === "" ?
+                                        <Image style={styles.image} source={require('../../assets/default_avatar.png')} /> :
+                                        <CustomImage style={styles.image} uri={item.avatar} />}
+                                </View>
+                                <View style={{ justifyContent: 'center', paddingLeft: 10 }}>
+                                    <Text>{item.name}</Text>
+                                    <Text>{item.username}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </TouchableWithoutFeedback>
+                </View>
+            }
+            keyExtractor={item => item._id}
+            ListEmptyComponent={<ListEmpty title={"No Likes yet"} message={`People who like your post will show up here`} />}
+        />
+    )
 }
 
 export default LikesScreen;

@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, TextInput, ActivityIndicator, Touchab
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Picker } from '@react-native-picker/picker';
-import { THEME_COLOUR } from '../../../Constants';
+import { THEME_COLOUR } from '../../../constants/colors';
 
 const PersonalInformation = () => {
     const user = useSelector((state) => state.user.value);

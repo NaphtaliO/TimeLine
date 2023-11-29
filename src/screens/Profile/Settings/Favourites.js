@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { URL } from "@env";
 import { useLogout } from "../../../hooks/useLogout";
 import { useSelector } from "react-redux";
-import ProfilePost from "../../../Components/ProfilePost";
-import ListEmpty from "../../../Components/ListEmpty";
+import ProfilePost from "../../../components/ProfilePost";
+import ListEmpty from "../../../components/ListEmpty";
 
 const Favourites = ({ navigation }) => {
   const user = useSelector((state) => state.user.value);

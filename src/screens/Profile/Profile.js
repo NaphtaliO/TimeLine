@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from '../../src/redux/postsSlice';
+import { setPosts } from '../../redux/postsSlice';
 import { Tabs } from 'react-native-collapsible-tab-view';
-import Post from '../../Components/Post';
-import ItemSeparator from '../../Components/ItemSeparator';
-import { logIn } from '../../src/redux/userSlice';
+import Post from '../../components/Post';
+import ItemSeparator from '../../components/ItemSeparator';
+import { logIn } from '../../redux/userSlice';
 import { useLogout } from '../../hooks/useLogout';
-import ListEmpty from '../../Components/ListEmpty';
-import LikedPost from '../../Components/LikedPost';
-import CustomImage from '../../Components/CustomImage';
+import ListEmpty from '../../components/ListEmpty';
+import LikedPost from '../../components/LikedPost';
+import CustomImage from '../../components/CustomImage';
 import { URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 const Profile = ({ navigation }) => {
     const dispatch = useDispatch();

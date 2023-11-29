@@ -1,10 +1,10 @@
 import { TouchableOpacity, TouchableWithoutFeedback, Keyboard, StyleSheet, Text, TextInput, View, Button, ActivityIndicator, Image } from 'react-native'
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../src/redux/userSlice';
+import { logIn } from '../../redux/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { URL } from '@env';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 
 const CreateAccount = ({ navigation }) => {

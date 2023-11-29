@@ -3,18 +3,18 @@ import React, { useState } from 'react';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { update } from '../../src/redux/userSlice';
+import { update } from '../../redux/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { useLogout } from '../../hooks/useLogout';
-import CustomImage from '../../Components/CustomImage';
+import CustomImage from '../../components/CustomImage';
 import { URL } from '@env';
-import { THEME_COLOUR } from '../../Constants';
+import { THEME_COLOUR } from '../../constants/colors';
 
 
-const EditProfile = ({ navigation, route }) => {
+const EditProfile = ({ navigation }) => {
   const { logout } = useLogout();
   const { showActionSheetWithOptions } = useActionSheet();
   const [loading, setLoading] = useState(false);
