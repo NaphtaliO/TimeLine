@@ -75,9 +75,9 @@ const LogIn = ({ navigation }) => {
             {error == "" ? <Text></Text> :
               <Text style={[styles.text, { alignSelf: 'flex-start', color: 'red' }]}>{error}</Text>
             }
-            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+            {/* <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
               <Text style={[styles.text, { alignSelf: 'flex-end' }]}>Forgot password?</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
 

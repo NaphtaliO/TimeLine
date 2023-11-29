@@ -36,9 +36,6 @@ import { useLogout } from "./hooks/useLogout";
 import { URL } from "@env";
 import TermsAndConditions from "./Components/TermsAndConditions";
 import BlockedUsers from "./screens/Profile/Settings/BlockedUsers";
-import Chat from "./screens/Chat/Chat";
-import ChatScreen from "./screens/Chat/ChatScreen";
-import NewChat from "./screens/Chat/NewChat";
 import LikesScreen from "./screens/Post/LikesScreen";
 import ChangePasswordContinued from "./screens/Profile/Settings/ChangePasswordContinued";
 import NetInfo from "@react-native-community/netinfo";
@@ -67,11 +64,6 @@ const TabNav = ({ navigation }) => {
           if (route.name === "PostScreen") {
             return <Feather name="plus-square" size={size} color={color} />;
           }
-          // if (route.name === "Chat") {
-          //   return (
-          //     <Ionicons name="ios-chatbox-outline" size={size} color={color} />
-          //   );
-          // }
           if (route.name === "Profile") {
             return <Ionicons name="person-outline" size={size} color={color} />;
           }
@@ -109,26 +101,6 @@ const TabNav = ({ navigation }) => {
           },
         })}
       />
-      {/* <Tab.Screen
-        name="Chat"
-        component={Chat}
-        options={({ navigation }) => ({
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('NewChat')}>
-              <Entypo
-                name="new-message"
-                size={22}
-                color="black"
-                style={{ marginRight: 20 }}
-              />
-            </TouchableOpacity>
-          ),
-          tabBarBadge: 5,
-          tabBarBadgeStyle: {
-            backgroundColor: "#3AB0FF",
-          },
-        })}
-      /> */}
       <Tab.Screen
         name="Profile"
         component={Profile}
@@ -338,13 +310,7 @@ const MainNav = ({ route }) => {
               }}
             />
             <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
-            {/* <Stack.Screen
-              name="ChatScreen"
-              component={ChatScreen}
-              options={{
-                headerShown: true,
-              }}
-            /> */}
+
             <Stack.Screen
               name="Post"
               component={Post}

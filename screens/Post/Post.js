@@ -13,7 +13,7 @@ import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
 import { THEME_COLOUR } from '../../Constants';
 
-export default function Post({ route, navigation }) {
+export default function Post({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [selected, setSelected] = useState(false);
     const [caption, setCaption] = useState("");
