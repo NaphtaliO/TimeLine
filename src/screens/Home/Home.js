@@ -2,8 +2,8 @@ import { StyleSheet, View, FlatList, RefreshControl, Platform } from 'react-nati
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFeed } from '../../redux/feedSlice';
-import FeedPost from '../../components/FeedPost';
 import ItemSeparator from '../../components/ItemSeparator';
+import FeedPost from '../../components/FeedPost';
 import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../components/ListEmpty';
 import * as Device from 'expo-device';
