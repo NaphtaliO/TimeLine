@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
-import { updatePost } from '../state_management/postsSlice';
+import { updatePost } from '../src/redux/postsSlice';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ItemSeparator from './ItemSeparator'

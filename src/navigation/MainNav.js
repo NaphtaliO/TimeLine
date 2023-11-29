@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PostScreen from "./screens/Post/PostScreen";
 import CreateAccount from "./screens/Authentication/CreateAccount";
 import LogIn from "./screens/Authentication/LogIn";
-import { logIn, update } from "./state_management/userSlice";
+import { logIn, update } from "../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CommentsScreen from "./screens/Post/CommentsScreen";
 import FollowingScreen from "./screens/Profile/FollowingScreen";
@@ -191,7 +191,7 @@ const MainNav = ({ route }) => {
               [
                 {
                   text: "Cancel",
-                  onPress: () => {},
+                  onPress: () => { },
                   style: "cancel",
                 },
                 {
@@ -420,9 +420,9 @@ const MainNav = ({ route }) => {
             <Stack.Screen
               name="Favourites"
               component={Favourites}
-              // options={({ navigation }) => ({
-              //   headerTitle: "Likes",
-              // })}
+            // options={({ navigation }) => ({
+            //   headerTitle: "Likes",
+            // })}
             />
 
             {/* <Stack.Screen

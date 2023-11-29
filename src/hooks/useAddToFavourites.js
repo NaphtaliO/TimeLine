@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLogout } from "./useLogout";
-import { updateFavourites } from "../state_management/userSlice";
+import { updateFavourites } from "../src/redux/userSlice";
 import { URL } from '@env';
 
 export const useAddToFavourites = () => {
@@ -37,5 +37,5 @@ export const useAddToFavourites = () => {
         setLoading(false);
     }
 
-    return {addToFavourites}
+    return { addToFavourites }
 }

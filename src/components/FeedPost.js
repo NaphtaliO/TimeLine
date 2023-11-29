@@ -17,8 +17,8 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDistanceToNowStrict } from "date-fns";
-import { updatePostInFeed } from "../state_management/feedSlice";
-import { updateFavourites } from "../state_management/userSlice";
+import { updatePostInFeed } from "../src/redux/feedSlice";
+import { updateFavourites } from "../src/redux/userSlice";
 import ItemSeparator from "./ItemSeparator";
 import { useLogout } from "../hooks/useLogout";
 import { useDeletePost } from "../hooks/useDeletePost";
@@ -124,9 +124,9 @@ const FeedPost = ({ navigation, item }) => {
             user._id === item.user_id
               ? navigation.push("ProfileStack")
               : navigation.push("UserProfileScreen", {
-                  username: item.username,
-                  id: item.user_id,
-                });
+                username: item.username,
+                id: item.user_id,
+              });
           }}
         >
           {/* avatar */}

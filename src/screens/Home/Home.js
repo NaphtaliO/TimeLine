@@ -1,14 +1,14 @@
 import { StyleSheet, View, FlatList, RefreshControl, Platform } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFeed } from '../../state_management/feedSlice';
+import { setFeed } from '../../src/redux/feedSlice';
 import FeedPost from '../../Components/FeedPost';
 import ItemSeparator from '../../Components/ItemSeparator';
 import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../Components/ListEmpty';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { setToken } from '../../state_management/notificationTokenSlice';
+import { setToken } from '../../src/redux/notificationTokenSlice';
 import { URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from "@react-native-community/netinfo";
@@ -162,7 +162,7 @@ const Home = ({ navigation }) => {
   }, [navigation])
 
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(async(state) => {
+    const unsubscribe = NetInfo.addEventListener(async (state) => {
       try {
         if (!state.isConnected) {
           const feedCached = JSON.parse(await AsyncStorage.getItem("feed"));

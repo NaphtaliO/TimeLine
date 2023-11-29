@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux"
-import { logOut } from "../state_management/userSlice";
-import { setFeed } from "../state_management/feedSlice";
-import { setPosts } from "../state_management/postsSlice";
+import { logOut } from "../src/redux/userSlice";
+import { setFeed } from "../src/redux/feedSlice";
+import { setPosts } from "../src/redux/postsSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useLogout = () => {

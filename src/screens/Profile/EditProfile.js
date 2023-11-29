@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { update } from '../../state_management/userSlice';
+import { update } from '../../src/redux/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import 'react-native-get-random-values';

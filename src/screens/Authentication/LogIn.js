@@ -2,7 +2,7 @@ import { TouchableOpacity, TouchableWithoutFeedback, Keyboard, StyleSheet, Text,
 import React, { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../state_management/userSlice';
+import { logIn } from '../../src/redux/userSlice';
 import { URL } from '@env';
 import { THEME_COLOUR } from '../../Constants';
 
