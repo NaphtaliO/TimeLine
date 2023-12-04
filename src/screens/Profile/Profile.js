@@ -19,7 +19,24 @@ const Profile = ({ navigation }) => {
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
     const user = useSelector((state) => state.user.value);
-    const posts = useSelector((state) => state.posts.value);
+    // const posts = useSelector((state) => state.posts.value);
+    const [posts, setPosts] = useState([{
+        uri: '',
+        caption: 'Cc',
+        user: {
+            _id: "64e32394240944f7990b0465",
+            name: 'Naphtali',
+            username: 'naphtali2003',
+            avatar: '',
+            favourites: []
+        },
+        likes: [],
+        comments: [],
+        _id: "6569207729bab9a912b5a636",
+        __v: 0,
+        createdAt: "2023-11-30T23:53:27.135Z",
+        updatedAt: "2023-11-30T23:53:27.135Z",
+    }])
     const [likedPosts, setLikedPosts] = useState([]);
     const { logout } = useLogout();
 
@@ -89,7 +106,7 @@ const Profile = ({ navigation }) => {
                 }
             }
             if (response.ok) {
-                dispatch(setPosts(json))
+                // dispatch(setPosts(json))
             }
         } catch (error) {
             console.log(error.message);
@@ -160,7 +177,6 @@ const Profile = ({ navigation }) => {
                                 style={styles.image}
                                 uri={user.avatar}
                             />
-
                         }
                         {user.name === null || user.name === "" ? null : <Text style={styles.name}>{user.name}</Text>}
                         <Text style={styles.username}>@{user.username}</Text>
@@ -186,13 +202,13 @@ const Profile = ({ navigation }) => {
                     style={{ backgroundColor: 'white' }}
                     ItemSeparatorComponent={<ItemSeparator />}
                     renderItem={({ item }) =>
-                        <Post navigation={navigation} user={user} item={item} />
+                        <Post navigation={navigation} post={item} />
                     }
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<ListEmpty title={"You have no posts"} message={"Create Posts and add them to your TimeLine"} />}
                 />
             </Tabs.Tab>
-            <Tabs.Tab name="Likes">
+            {/* <Tabs.Tab name="Likes">
                 <Tabs.FlatList
                     ItemSeparatorComponent={<ItemSeparator />}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
@@ -204,7 +220,7 @@ const Profile = ({ navigation }) => {
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<ListEmpty title={"No liked posts"} message={"Like some posts and they will appear here"} />}
                 />
-            </Tabs.Tab>
+            </Tabs.Tab> */}
         </Tabs.Container>
     )
 }

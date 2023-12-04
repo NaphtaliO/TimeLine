@@ -6,14 +6,14 @@ import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Profile from "../screens/Profile/Profile";
 import Settings from "../screens/Profile/Settings/Settings";
 import EditProfile from "../screens/Profile/EditProfile";
-import Post from "../screens/Post/Post";
+import CreatePost from "../screens/CreatePost/CreatePost";
 import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import CreateAccount from "../screens/Authentication/CreateAccount";
 import LogIn from "../screens/Authentication/LogIn";
 import { logIn, update } from "../redux/userSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import CommentsScreen from "../screens/Post/CommentsScreen";
+import CommentsScreen from "../screens/CreatePost/CommentsScreen";
 import FollowingScreen from "../screens/Profile/FollowingScreen";
 import UserProfileScreen from "../screens/Home/UserProfileScreen";
 import AccountInformation from "../screens/Profile/Settings/AccountInformation";
@@ -26,7 +26,7 @@ import { useLogout } from "../hooks/useLogout";
 import { URL } from "@env";
 import TermsAndConditions from "../components/TermsAndConditions";
 import BlockedUsers from "../screens/Profile/Settings/BlockedUsers";
-import LikesScreen from "../screens/Post/LikesScreen";
+import LikesScreen from "../screens/CreatePost/LikesScreen";
 import ChangePasswordContinued from "../screens/Profile/Settings/ChangePasswordContinued";
 import NetInfo from "@react-native-community/netinfo";
 import { useToast } from "react-native-toast-notifications";
@@ -228,8 +228,8 @@ const MainNav = () => {
             <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
 
             <Stack.Screen
-              name="Post"
-              component={Post}
+              name="CreatePost"
+              component={CreatePost}
               options={({ navigation }) => ({
                 headerTitle: "Start Post",
                 gestureDirection: "vertical",
@@ -340,16 +340,6 @@ const MainNav = () => {
             //   headerTitle: "Likes",
             // })}
             />
-
-            {/* <Stack.Screen
-              name="NewChat"
-              component={NewChat}
-              options={
-                {
-                  //headerShown: false,
-                }
-              }
-            /> */}
           </>
         ) : (
           <>

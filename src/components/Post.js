@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, Dimensions, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import * as Haptics from 'expo-haptics';
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
-import { updatePost } from '../redux/postsSlice';
+import { useSelector } from 'react-redux';
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import { formatDistanceToNowStrict } from 'date-fns';
 import ItemSeparator from './ItemSeparator'
@@ -13,41 +12,46 @@ import { useAddToFavourites } from '../hooks/useAddToFavourites';
 import CustomText from './CustomText';
 import CustomImage from './CustomImage';
 import { URL } from '@env';
+// import { updatePost } from '../redux/postsSlice';
 
 const windowWidth = Dimensions.get('window').width;
 
-const Post = ({ navigation, user, item }) => {
-    const dispatch = useDispatch();
+const Post = ({ navigation, post }) => {
     const [loading, setLoading] = useState(false);
+    const [likes, setLikes] = useState(post.likes)
     const { logout } = useLogout()
     const { deletePostUI } = useDeletePost();
     const { addToFavourites } = useAddToFavourites();
     const { showActionSheetWithOptions } = useActionSheet();
+    const user = useSelector((state) => state.user.value);
+    console.log(post);
+    console.log(user._id);
+    console.log(likes.includes(user._id));
 
     const addPostToFavourites = async () => {
-        addToFavourites(item._id)
+        addToFavourites(post._id)
     }
 
     const like = async () => {
-        if (loading) {
-            return;
-        }
+        if (loading) return;
+
         setLoading(true);
         try {
-            const response = await fetch(`${URL}/api/posts/like/${item._id}`, {
+            const response = await fetch(`${URL}/api/posts/like/${post._id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 },
             });
             const json = await response.json()
+            console.log(json);
             if (!response.ok) {
                 if (json.error === "Request is not authorized") {
                     logout()
                 }
             }
             if (response.ok) {
-                dispatch(updatePost(json));
+                setLikes(json.likes)
                 vibrateOnSuccess();
             }
         } catch (error) {
@@ -61,21 +65,49 @@ const Post = ({ navigation, user, item }) => {
     }
 
     const bottomSheet = () => {
-        showActionSheetWithOptions({
-            options: ["Cancel", "Delete"],
-            cancelButtonIndex: 0,
-            destructiveButtonIndex: 1
-        }, (selectedIndex) => {
-            switch (selectedIndex) {
-                case 0:
-                    // Cancel
-                    break;
-                case 1:
-                    deletePostUI(item._id, item.uri)
-                    break;
-            }
-        });
-    }
+        if (post.user_id === user._id) {
+            showActionSheetWithOptions(
+                {
+                    options: ["Cancel", "Delete"],
+                    cancelButtonIndex: 0,
+                    destructiveButtonIndex: 1,
+                    userInterfaceStyle: "dark",
+                },
+                (selectedIndex) => {
+                    switch (selectedIndex) {
+                        case 0:
+                            // Cancel
+                            break;
+                        case 1:
+                            deletePostUI(post._id, post.uri);
+                            break;
+                    }
+                }
+            );
+        } else {
+            showActionSheetWithOptions(
+                {
+                    options: ["Cancel", "Report"],
+                    cancelButtonIndex: 0,
+                    destructiveButtonIndex: 1,
+                    userInterfaceStyle: "dark",
+                },
+                (selectedIndex) => {
+                    switch (selectedIndex) {
+                        case 0:
+                            // Cancel
+                            break;
+                        case 1:
+                            navigation.navigate("ReportScreen", {
+                                entityType: "Post",
+                                entityId: post._id,
+                            });
+                            break;
+                    }
+                }
+            );
+        }
+    };
 
     return (
         <>
@@ -83,12 +115,10 @@ const Post = ({ navigation, user, item }) => {
                 <TouchableWithoutFeedback onPress={() => navigation.push('ProfileStack')}>
                     {/* avatar */}
                     <View style={{ flexDirection: 'row' }}>
-                        {user.avatar === null || user.avatar === "" ?
-                            <Image style={styles.avatar} source={require('../assets/default_avatar.png')} />
-                            : <CustomImage uri={user.avatar} style={styles.avatar} />}
+                        <CustomImage uri={post.user.avatar} style={styles.avatar} />
                         <View style={{ alignSelf: 'center' }}>
-                            <Text style={styles.name}>{user.name}</Text>
-                            <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(item.createdAt))} ago`}</Text>
+                            <Text style={styles.name}>{post.user.name}</Text>
+                            <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(post.createdAt))} ago`}</Text>
                         </View>
                     </View>
                 </TouchableWithoutFeedback >
@@ -99,19 +129,23 @@ const Post = ({ navigation, user, item }) => {
             </View>
             {/* caption */}
             <View style={styles.captionContainer}>
-                <CustomText style={styles.caption} caption={item.caption} />
+                <CustomText style={styles.caption} caption={post.caption} />
             </View>
             <View style={{ marginVertical: 10 }}>
                 {/* Image  */}
                 {/* If image is null do nothing else return image */}
-                {item.uri === null || item.uri === "" ? null :
-                    <CustomImage uri={item.uri} style={styles.image}
+                {post.uri === null || post.uri === "" ? null :
+                    <CustomImage uri={post.uri} style={styles.image}
                         resizeMode={''} />}
             </View>
 
             <View style={{ flexDirection: 'row', marginBottom: 10, marginLeft: 'auto', marginRight: 7 }}>
-                <TouchableWithoutFeedback onPress={() => { navigation.push("CommentsScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.comments.length === 0 || item.comments.length > 1 ? `${item.comments.length} comments` : `${item.comments.length} comment`}</Text></TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={() => { navigation.push("LikesScreen", { post_id: item._id }) }}><Text style={{ paddingRight: 5 }}>{item.likes.length === 0 || item.likes.length > 1 ? `${item.likes.length} likes` : `${item.likes.length} like`}</Text></TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => { navigation.push("CommentsScreen", { post_id: post._id }) }}>
+                    <Text style={{ paddingRight: 5 }}>{post.comments.length === 0 || post.comments.length > 1 ? `${post.comments.length} comments` : `${post.comments.length} comment`}</Text>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => { navigation.push("LikesScreen", { post_id: post._id }) }}>
+                    <Text style={{ paddingRight: 5 }}>{post.likes.length === 0 || post.likes.length > 1 ? `${post.likes.length} likes` : `${post.likes.length} like`}</Text>
+                </TouchableWithoutFeedback>
             </View>
             <ItemSeparator />
 
@@ -119,18 +153,18 @@ const Post = ({ navigation, user, item }) => {
                 {/* Like Button */}
                 <TouchableOpacity onPress={like} style={styles.touchable}>
                     {/* If the the post is liked then change the icon to red */}
-                    {item.likes.includes(user._id) ? <AntDesign name="heart" size={24} color="red" style={styles.icon} /> :
+                    {likes.includes(user._id) ? <AntDesign name="heart" size={24} color="red" style={styles.icon} /> :
                         <AntDesign name="hearto" size={24} color="black" style={styles.icon} />}
                     <Text style={styles.iconText}>Like</Text>
                 </TouchableOpacity>
                 {/* Comment Button */}
-                <TouchableOpacity style={styles.touchable} onPress={() => { navigation.push("CommentsScreen", { post_id: item._id }) }}>
+                <TouchableOpacity style={styles.touchable} onPress={() => { navigation.push("CommentsScreen", { post_id: post._id }) }}>
                     <FontAwesome name="comment-o" size={24} color="black" style={styles.icon} />
                     <Text style={styles.iconText}>Comment</Text>
                 </TouchableOpacity>
                 {/* Add to Favourites Button */}
                 <TouchableOpacity style={styles.touchable} onPress={addPostToFavourites}>
-                    {user.favourites.includes(item._id) ? <FontAwesome name="bookmark" size={24} color="black" style={styles.icon} /> :
+                    {user.favourites.includes(post._id) ? <FontAwesome name="bookmark" size={24} color="black" style={styles.icon} /> :
                         <FontAwesome name="bookmark-o" size={24} color="black" style={styles.icon} />}
                     <Text style={styles.iconText}>Save</Text>
                 </TouchableOpacity>

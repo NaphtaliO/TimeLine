@@ -8,7 +8,7 @@ import {
 } from "@expo/vector-icons";
 import { useSelector } from 'react-redux';
 import Home from "../screens/Home/Home";
-import PostScreen from "../screens/Post/PostScreen";
+import PostScreen from "../screens/CreatePost/PostScreen";
 import Search from "../screens/Search/Search";
 import Profile from '../screens/Profile/Profile';
 import { TouchableOpacity } from 'react-native';
@@ -65,7 +65,7 @@ const TabNav = ({ navigation }) => {
                 listeners={({ navigation }) => ({
                     tabPress: (e) => {
                         e.preventDefault();
-                        navigation.navigate("Post");
+                        navigation.navigate("CreatePost");
                     },
                 })}
             />

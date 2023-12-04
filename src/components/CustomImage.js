@@ -1,5 +1,6 @@
 import { View } from 'react-native';
-import { Image } from 'expo-image';
+import { Image as ExpoImage } from 'expo-image';
+import { Image } from 'react-native';
 
 const CustomImage = ({ style, uri }) => {
 
@@ -8,13 +9,16 @@ const CustomImage = ({ style, uri }) => {
 
   return (
     <View>
-      <Image
-        style={style}
-        source={uri}
-        placeholder={blurhash}
-        contentFit="cover"
-        transition={200}
-      />
+      {uri === '' ?
+        <Image style={style} source={require('../assets/default_avatar.png')} />
+        :
+        <ExpoImage
+          style={style}
+          source={uri}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={200}
+        />}
     </View>
   )
 }

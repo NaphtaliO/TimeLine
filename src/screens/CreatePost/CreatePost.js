@@ -13,7 +13,7 @@ import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
 import { THEME_COLOUR } from '../../constants/colors';
 
-export default function Post({ navigation }) {
+export default function CreatePost({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [selected, setSelected] = useState(false);
     const [caption, setCaption] = useState("");
@@ -80,7 +80,7 @@ export default function Post({ navigation }) {
             let result = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 aspect: [4, 3],
-                quality: 0.2,
+                quality: 0,
                 cameraType: ImagePicker.CameraType.front
             });
 
@@ -106,7 +106,7 @@ export default function Post({ navigation }) {
                 console.log("You need to be logged in");
                 return;
             }
-            let uri = null;
+            let uri = '';
             if (selected) {
                 uri = await handleImagePicked(image);
             }
@@ -276,7 +276,6 @@ const styles = StyleSheet.create({
     },
     closeButton: {
         marginLeft: 'auto',
-        // position: 'absolute',
         top: 0,
         right: 0
     }
