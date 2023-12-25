@@ -16,7 +16,7 @@ import { URL } from '@env';
 
 const windowWidth = Dimensions.get('window').width;
 
-const Post = ({ navigation, post }) => {
+const Post = ({ navigation, post, updatePostsList }) => {
     const [loading, setLoading] = useState(false);
     const [likes, setLikes] = useState(post.likes)
     const { logout } = useLogout()
@@ -24,9 +24,6 @@ const Post = ({ navigation, post }) => {
     const { addToFavourites } = useAddToFavourites();
     const { showActionSheetWithOptions } = useActionSheet();
     const user = useSelector((state) => state.user.value);
-    console.log(post);
-    console.log(user._id);
-    console.log(likes.includes(user._id));
 
     const addPostToFavourites = async () => {
         addToFavourites(post._id)
@@ -44,14 +41,14 @@ const Post = ({ navigation, post }) => {
                 },
             });
             const json = await response.json()
-            console.log(json);
             if (!response.ok) {
                 if (json.error === "Request is not authorized") {
                     logout()
                 }
             }
             if (response.ok) {
-                setLikes(json.likes)
+                setLikes(json.likes);
+                updatePostsList(json);
                 vibrateOnSuccess();
             }
         } catch (error) {
@@ -65,7 +62,7 @@ const Post = ({ navigation, post }) => {
     }
 
     const bottomSheet = () => {
-        if (post.user_id === user._id) {
+        if (post.user._id === user._id) {
             showActionSheetWithOptions(
                 {
                     options: ["Cancel", "Delete"],
@@ -115,7 +112,7 @@ const Post = ({ navigation, post }) => {
                 <TouchableWithoutFeedback onPress={() => navigation.push('ProfileStack')}>
                     {/* avatar */}
                     <View style={{ flexDirection: 'row' }}>
-                        <CustomImage uri={post.user.avatar} style={styles.avatar} />
+                        <CustomImage type={"post"} uri={post.user.avatar} style={styles.avatar} />
                         <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.name}>{post.user.name}</Text>
                             <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(post.createdAt))} ago`}</Text>
