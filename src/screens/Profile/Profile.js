@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, RefreshControl } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from '../../redux/postsSlice';
+import { setPosts, updatePost } from '../../redux/postsSlice';
 import { Tabs } from 'react-native-collapsible-tab-view';
 import Post from '../../components/Post';
 import ItemSeparator from '../../components/ItemSeparator';
 import { logIn } from '../../redux/userSlice';
 import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../components/ListEmpty';
-import LikedPost from '../../components/LikedPost';
+// import LikedPost from '../../components/LikedPost';
 import CustomImage from '../../components/CustomImage';
 import { URL } from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,25 +18,9 @@ import { THEME_COLOUR } from '../../constants/colors';
 const Profile = ({ navigation }) => {
     const dispatch = useDispatch();
     const [refreshing, setRefreshing] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const user = useSelector((state) => state.user.value);
-    // const posts = useSelector((state) => state.posts.value);
-    const [posts, setPosts] = useState([{
-        uri: '',
-        caption: 'Cc',
-        user: {
-            _id: "64e32394240944f7990b0465",
-            name: 'Naphtali',
-            username: 'naphtali2003',
-            avatar: '',
-            favourites: []
-        },
-        likes: [],
-        comments: [],
-        _id: "6569207729bab9a912b5a636",
-        __v: 0,
-        createdAt: "2023-11-30T23:53:27.135Z",
-        updatedAt: "2023-11-30T23:53:27.135Z",
-    }])
+    const posts = useSelector((state) => state.posts.value);
     const [likedPosts, setLikedPosts] = useState([]);
     const { logout } = useLogout();
 
@@ -106,7 +90,7 @@ const Profile = ({ navigation }) => {
                 }
             }
             if (response.ok) {
-                // dispatch(setPosts(json))
+                dispatch(setPosts(json))
             }
         } catch (error) {
             console.log(error.message);
@@ -152,6 +136,10 @@ const Profile = ({ navigation }) => {
         setLikedPosts(newList)
     }
 
+    const updatePostsList = (post) => {
+        dispatch(updatePost(post))
+    }
+
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             // refresh data here
@@ -168,16 +156,7 @@ const Profile = ({ navigation }) => {
             renderHeader={() =>
                 <View style={styles.container} pointerEvents={"box-none"}>
                     <View style={{ padding: 15 }} pointerEvents={"auto"}>
-                        {user.avatar === null || user.avatar === "" ? <Image
-                            style={styles.image}
-                            source={require('../../assets/default_avatar.png')}
-                        />
-                            :
-                            <CustomImage
-                                style={styles.image}
-                                uri={user.avatar}
-                            />
-                        }
+                        <CustomImage type="profile" style={styles.image} uri={user.avatar}/>
                         {user.name === null || user.name === "" ? null : <Text style={styles.name}>{user.name}</Text>}
                         <Text style={styles.username}>@{user.username}</Text>
                         {user.bio === null || user.bio === "" ? null : <Text>{user.bio}</Text>}
@@ -202,7 +181,7 @@ const Profile = ({ navigation }) => {
                     style={{ backgroundColor: 'white' }}
                     ItemSeparatorComponent={<ItemSeparator />}
                     renderItem={({ item }) =>
-                        <Post navigation={navigation} post={item} />
+                        <Post navigation={navigation} post={item} updatePostsList={updatePostsList} />
                     }
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<ListEmpty title={"You have no posts"} message={"Create Posts and add them to your TimeLine"} />}

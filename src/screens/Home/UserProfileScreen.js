@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, RefreshControl, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ProfilePost from '../../components/ProfilePost';
+import Post from '../../components/Post';
 import { follow } from '../../redux/userSlice';
 import { Tabs } from 'react-native-collapsible-tab-view';
 import ItemSeparator from '../../components/ItemSeparator';
@@ -156,17 +156,19 @@ const UserProfileScreen = ({ navigation, route }) => {
         getLikedPostsList();
     }
 
+    const updatePostsList = (post) => {
+        setPosts((posts) =>
+            posts.map((obj) => (obj._id === post._id ? post : obj))
+        );
+    }
+
     return (
         <Tabs.Container allowHeaderOverscroll={true}
             renderHeader={() =>
                 <View style={styles.container}>
                     {user ?
                         <View style={{ padding: 15 }}>
-                            {user.avatar === null || user.avatar === "" ?
-                                <Image style={styles.image} source={require('../../assets/default_avatar.png')} />
-                                :
-                                <CustomImage style={styles.image} uri={user.avatar} />
-                            }
+                            <CustomImage type="profile" style={styles.image} uri={user.avatar} />
                             {user.name === null || user.name === "" ? null : <Text style={styles.name}>{user.name}</Text>}
                             <Text style={styles.username}>@{user.username}</Text>
                             {user.bio === null || user.bio === "" ? null : <Text>{user.bio}</Text>}
@@ -208,7 +210,7 @@ const UserProfileScreen = ({ navigation, route }) => {
                     data={posts}
                     style={{ backgroundColor: 'white' }}
                     renderItem={({ item }) =>
-                        <ProfilePost navigation={navigation} item={item} />
+                        <Post navigation={navigation} post={item} updatePostsList={updatePostsList}/>
                     }
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<ListEmpty title={"No posts yet"} message={`@${user?.username} has not made any posts`} />}
@@ -221,7 +223,7 @@ const UserProfileScreen = ({ navigation, route }) => {
                     data={likedPosts}
                     style={{ backgroundColor: 'white' }}
                     renderItem={({ item }) =>
-                        <ProfilePost navigation={navigation} item={item} />
+                        <Post navigation={navigation} post={item} />
                     }
                     keyExtractor={item => item._id}
                     ListEmptyComponent={<ListEmpty title={"No liked posts"} message={`@${user?.username} has not liked any posts`} />}

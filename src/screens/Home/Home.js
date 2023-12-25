@@ -1,9 +1,9 @@
-import { StyleSheet, View, FlatList, RefreshControl, Platform } from 'react-native';
+import { StyleSheet, View, FlatList, RefreshControl, Platform, Text } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFeed } from '../../redux/feedSlice';
 import ItemSeparator from '../../components/ItemSeparator';
-import FeedPost from '../../components/FeedPost';
+// import FeedPost from '../../components/FeedPost';
 import { useLogout } from '../../hooks/useLogout';
 import ListEmpty from '../../components/ListEmpty';
 import * as Device from 'expo-device';
@@ -192,7 +192,8 @@ const Home = ({ navigation }) => {
         showsVerticalScrollIndicator={true}
         ItemSeparatorComponent={<ItemSeparator />}
         renderItem={({ item }) =>
-          <FeedPost navigation={navigation} item={item} />
+          // <FeedPost navigation={navigation} item={item} />
+          <Text>Hello</Text>
         }
         keyExtractor={item => item._id}
         ListEmptyComponent={<ListEmpty title={"Welcome to TimeLine"} message={"Follow friends to add their posts to your TimeLine"} />}

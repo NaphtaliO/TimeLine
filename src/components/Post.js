@@ -112,7 +112,7 @@ const Post = ({ navigation, post, updatePostsList }) => {
                 <TouchableWithoutFeedback onPress={() => navigation.push('ProfileStack')}>
                     {/* avatar */}
                     <View style={{ flexDirection: 'row' }}>
-                        <CustomImage type={"post"} uri={post.user.avatar} style={styles.avatar} />
+                        <CustomImage type={"post-avatar"} uri={post.user.avatar} style={styles.avatar} />
                         <View style={{ alignSelf: 'center' }}>
                             <Text style={styles.name}>{post.user.name}</Text>
                             <Text style={styles.timestamp}>{`${formatDistanceToNowStrict(new Date(post.createdAt))} ago`}</Text>
@@ -130,10 +130,8 @@ const Post = ({ navigation, post, updatePostsList }) => {
             </View>
             <View style={{ marginVertical: 10 }}>
                 {/* Image  */}
-                {/* If image is null do nothing else return image */}
-                {post.uri === null || post.uri === "" ? null :
-                    <CustomImage uri={post.uri} style={styles.image}
-                        resizeMode={''} />}
+                    <CustomImage type={"post-image"} uri={post.uri} style={styles.image}
+                        resizeMode={''} />
             </View>
 
             <View style={{ flexDirection: 'row', marginBottom: 10, marginLeft: 'auto', marginRight: 7 }}>

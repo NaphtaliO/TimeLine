@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { URL } from "@env";
 import { useLogout } from "../../../hooks/useLogout";
 import { useSelector } from "react-redux";
-import ProfilePost from "../../../components/ProfilePost";
+// import ProfilePost from "../../../components/ProfilePost";
 import ListEmpty from "../../../components/ListEmpty";
 
 const Favourites = ({ navigation }) => {
@@ -42,7 +42,8 @@ const Favourites = ({ navigation }) => {
       style={styles.container}
       data={favourites}
       renderItem={({ item }) => (
-        <ProfilePost navigation={navigation} item={item} />
+        // <ProfilePost navigation={navigation} item={item} />
+        <Text>Hello</Text>
       )}
       keyExtractor={(item) => item._id}
       ListEmptyComponent={

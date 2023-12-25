@@ -47,7 +47,7 @@ export const useDeletePost = () => {
                         }
                         if (response.ok) {
                             dispatch(deletePost(json));
-                            dispatch(deletePostInFeed(json))
+                            dispatch(deletePostInFeed(json));
                         }
                     } catch (error) {
                         console.log(error.message);

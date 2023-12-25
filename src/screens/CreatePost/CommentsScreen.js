@@ -136,7 +136,7 @@ export default function CommentsScreen({ route, navigation }) {
         }
       });
     }
-    
+
   }
 
   useEffect(() => {
@@ -150,7 +150,7 @@ export default function CommentsScreen({ route, navigation }) {
         data={comments}
         showsVerticalScrollIndicator={true}
         renderItem={({ item }) =>
-            <Comment item={item} navigation={navigation} actionSheet={actionSheet} />
+          <Comment item={item} navigation={navigation} actionSheet={actionSheet} />
         }
         keyExtractor={item => item._id}
         ListEmptyComponent={<ListEmpty title={"No Comments yet"} message={`Comments on this post will appear here`} />}
@@ -190,7 +190,6 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    //padding: 8,
     borderWidth: 1,
     borderColor: 'grey',
     borderRadius: 10,

@@ -120,7 +120,6 @@ const EditProfile = ({ navigation }) => {
     if (user.avatar === null || user.avatar === "") {
       null
     } else {
-
       try {
         let pictureRef = ref(getStorage(), user.avatar);
         await deleteObject(pictureRef).then(() => {
@@ -129,8 +128,6 @@ const EditProfile = ({ navigation }) => {
       } catch (error) {
         console.log(error.message);
       }
-
-
     }
   }
 
@@ -227,7 +224,7 @@ const EditProfile = ({ navigation }) => {
       let updatedBody = {
         id: body.id,
         name: body.name ? body.name : "",
-        bio: body.bio ? body.bio : "",
+        bio: body.bio ? vvbody.bio : "",
         website: body.website ? body.website : "",
         avatar: body.avatar ? body.avatar : ""
       }
@@ -256,13 +253,11 @@ const EditProfile = ({ navigation }) => {
         dispatch(update(updatedUser));
         navigation.goBack();
       }
-
     } catch (error) {
       console.log(error.message);
     }
     setLoading(false);
   }
-
 
   return (
     <View style={styles.container}>
@@ -368,13 +363,9 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 15,
   },
-  bio: {
-
-  },
   error: {
     color: 'red',
     fontSize: 20,
     alignSelf: 'center',
-
   }
 })

@@ -1,5 +1,5 @@
-import { StyleSheet, View, Text, FlatList, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, View, Text, FlatList, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import SearchItems from '../../components/SearchItems';
 import { SearchBar } from '@rneui/themed';
@@ -7,7 +7,7 @@ import { useLogout } from '../../hooks/useLogout';
 import { URL } from '@env';
 
 const Search = ({ navigation }) => {
-  const { logout } = useLogout()
+  const { logout } = useLogout();
   const user = useSelector((state) => state.user.value);
   const [users, setUsers] = useState([]);
   const [text, setText] = useState('');
